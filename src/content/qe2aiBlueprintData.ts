@@ -735,13 +735,23 @@ export const QE2AI_PROJECTS: MiniProjectDetail[] = [
 export const FREE_LLM_PROVIDERS: FreeLLMProvider[] = [
   {
     provider: "Google AI Studio",
-    model: "Gemini 1.5 Flash / Gemini 1.5 Pro",
+    model: "Gemini 1.5 Flash / Gemini 1.5 Pro / Flash 2.0",
     freeTierStatus: "Active (Generous)",
     apiAvailability: "Yes (REST API & Python SDK)",
-    limitations: "15 RPM (Requests per minute), 1M TPM (Tokens per min), 1,500 RPD",
-    bestUseCase: "Long-context RAG (up to 1M tokens), fast test generation, vision inspection",
+    limitations: "15 RPM, 1M TPM, 1,500 RPD on free tier",
+    bestUseCase: "Long-context RAG (up to 1M tokens), fast test generation, multimodal vision inspection",
     lastVerified: "March 2025",
     docsUrl: "https://aistudio.google.com/"
+  },
+  {
+    provider: "NVIDIA NIM",
+    model: "Llama 3.3 70B, DeepSeek R1, Nemotron 70B",
+    freeTierStatus: "Active (Free 1000 Credits)",
+    apiAvailability: "Yes (OpenAI-compatible REST API & SDK)",
+    limitations: "1,000 free API credits per registered developer",
+    bestUseCase: "Enterprise-grade low latency inference microservices & high-speed reasoning",
+    lastVerified: "March 2025",
+    docsUrl: "https://build.nvidia.com/"
   },
   {
     provider: "Groq",
@@ -749,7 +759,7 @@ export const FREE_LLM_PROVIDERS: FreeLLMProvider[] = [
     freeTierStatus: "Active (Ultra Fast)",
     apiAvailability: "Yes (OpenAI-compatible API)",
     limitations: "30 RPM, 6,000 TPM (varies by model), hourly burst limits",
-    bestUseCase: "Ultra-low latency generation (500+ tokens/sec), test execution analysis",
+    bestUseCase: "Ultra-low latency generation (500+ tokens/sec), test execution log analysis",
     lastVerified: "March 2025",
     docsUrl: "https://console.groq.com/"
   },
@@ -765,7 +775,7 @@ export const FREE_LLM_PROVIDERS: FreeLLMProvider[] = [
   },
   {
     provider: "Cloudflare Workers AI",
-    model: "Llama 3.2 3B / Mistral 7B / Embeddings",
+    model: "Llama 3.2 3B / Mistral 7B / BAAI Embeddings",
     freeTierStatus: "Active (Daily Allocation)",
     apiAvailability: "Yes (REST API & Workers)",
     limitations: "10,000 Neurons/day (~free for daily prototyping)",
@@ -775,7 +785,7 @@ export const FREE_LLM_PROVIDERS: FreeLLMProvider[] = [
   },
   {
     provider: "Cohere",
-    model: "Embed v3 / Rerank v3",
+    model: "Embed v3 / Rerank v3.5",
     freeTierStatus: "Active (Trial Key)",
     apiAvailability: "Yes (Python SDK)",
     limitations: "1,000 API calls/month on trial key (non-production)",
@@ -785,24 +795,79 @@ export const FREE_LLM_PROVIDERS: FreeLLMProvider[] = [
   },
   {
     provider: "Hugging Face Inference API",
-    model: "Thousands of Open Models",
+    model: "Thousands of Open-Source Models",
     freeTierStatus: "Active (Serverless)",
-    apiAvailability: "Yes (HTTP API)",
+    apiAvailability: "Yes (HTTP API & Python)",
     limitations: "Rate limited based on shared cluster load; cold starts",
-    bestUseCase: "Testing open-source niche models, tokenizers, and small classifiers",
+    bestUseCase: "Testing niche open-source models, tokenizers, and small classifiers",
     lastVerified: "March 2025",
     docsUrl: "https://huggingface.co/inference-api"
+  },
+  {
+    provider: "Apipheny Public APIs",
+    model: "90+ Free Public APIs For Testing",
+    freeTierStatus: "Active (No Key Required)",
+    apiAvailability: "Yes (REST Endpoints)",
+    limitations: "Public rate limits per API provider",
+    bestUseCase: "Synthetic test data feeds, live mock services for AI agent tool calling",
+    lastVerified: "March 2025",
+    docsUrl: "https://apipheny.io/free-api/"
   }
 ];
 
 export const CURATED_YOUTUBE_RESOURCES: CuratedResourceItem[] = [
+  {
+    category: "LLM Fine-Tuning",
+    title: "LLM Fine Tuning Crash Course: 1 Hour End-to-End Guide",
+    type: "youtube",
+    url: "https://www.youtube.com/watch?v=mrKuDK9dGlg&list=PLrLEqwuz-mRIEtuUEN8sse2XyksKNN4Om",
+    author: "AI Engineering Hub",
+    whyWatchOrLearn: "Comprehensive 1-hour crash course explaining supervised fine-tuning (SFT), LoRA adapters, QLoRA quantization, and domain dataset preparation.",
+    difficulty: "Intermediate"
+  },
+  {
+    category: "Agentic AI & LangGraph",
+    title: "Build a Real-World Multi-Agent AI System using LangGraph, APIs and Memory",
+    type: "youtube",
+    url: "https://www.youtube.com/watch?v=_5XF5CCnbDk",
+    author: "LangGraph Lab",
+    whyWatchOrLearn: "Step-by-step masterclass demonstrating multi-agent orchestration, state persistence, short/long-term memory, and external API tool integration.",
+    difficulty: "Advanced"
+  },
+  {
+    category: "Production RAG",
+    title: "Production RAG with LangChain & Vector Databases – Full Course",
+    type: "youtube",
+    url: "https://www.youtube.com/watch?v=mHxLXzYjQRE",
+    author: "freeCodeCamp / Paulo Dichone",
+    whyWatchOrLearn: "Full production course covering document loaders, text chunking strategies, vector embeddings, ChromaDB/Pinecone indexing, and retrieval evaluation.",
+    difficulty: "Intermediate"
+  },
+  {
+    category: "Backend & API Engineering",
+    title: "FastAPI Tutorial for AI Engineers | Build Scalable AI APIs from Scratch",
+    type: "youtube",
+    url: "https://www.youtube.com/watch?v=IcM2w2VKdbA",
+    author: "AI Engineering Academy",
+    whyWatchOrLearn: "Specifically tailored for AI engineers building async streaming endpoints, background task workers, and Pydantic schema validation for LLM responses.",
+    difficulty: "Beginner"
+  },
+  {
+    category: "Backend & Python",
+    title: "Python FastAPI Tutorial: Full Course for Beginners - Build a Full-Stack Web App",
+    type: "youtube",
+    url: "https://www.youtube.com/watch?v=iukOehU5aF4",
+    author: "Corey Schafer",
+    whyWatchOrLearn: "Industry-favorite deep dive into Python FastAPI architecture, dependencies, routing, and database integrations by Corey Schafer.",
+    difficulty: "Beginner"
+  },
   {
     category: "AI Fundamentals",
     title: "Let's build GPT: from scratch, in code, spelled out",
     type: "youtube",
     url: "https://www.youtube.com/watch?v=kCc8FmEb1nY",
     author: "Andrej Karpathy",
-    whyWatchOrLearn: "The gold standard for understanding tokenization, self-attention, and transformer architectures step-by-step in clean Python without confusing academic math.",
+    whyWatchOrLearn: "The gold standard for understanding tokenization, self-attention, and transformer architectures step-by-step in clean Python.",
     difficulty: "Beginner"
   },
   {
@@ -815,40 +880,67 @@ export const CURATED_YOUTUBE_RESOURCES: CuratedResourceItem[] = [
     difficulty: "Beginner"
   },
   {
-    category: "RAG & Vector DBs",
-    title: "Advanced RAG: Chunking, Vector Databases, and Re-ranking",
+    category: "Python for AI",
+    title: "Python Tutorial for AI Beginners",
     type: "youtube",
-    url: "https://www.youtube.com/watch?v=wd7TZ4w1mSw",
-    author: "LangChain",
-    whyWatchOrLearn: "Explains how to move beyond naive RAG into hybrid search, parent document retrievers, and cross-encoder re-ranking for enterprise knowledge bases.",
-    difficulty: "Intermediate"
-  },
-  {
-    category: "Agents & LangGraph",
-    title: "LangGraph Crash Course: Build Cyclic Multi-Agent Systems",
-    type: "youtube",
-    url: "https://www.youtube.com/watch?v=9Ayk5mRvdB8",
-    author: "Harrison Chase (LangChain)",
-    whyWatchOrLearn: "Understand why linear chains fail for real-world tasks and how state graphs, conditional routing, reflection, and human-in-the-loop work.",
-    difficulty: "Intermediate"
-  },
-  {
-    category: "Model Context Protocol (MCP)",
-    title: "Model Context Protocol (MCP) Explained for Developers",
-    type: "youtube",
-    url: "https://www.youtube.com/watch?v=mcp-overview",
-    author: "Anthropic Developer Hub",
-    whyWatchOrLearn: "Anthropic engineers explain the architecture of MCP: how tools, prompts, and resources connect LLMs to databases, terminals, and test runners.",
+    url: "https://www.youtube.com/watch?v=6GuyMZ-cSzE",
+    author: "AI Education Network",
+    whyWatchOrLearn: "Targeted Python syntax, data structures, list comprehensions, and async principles necessary for working with AI SDKs.",
     difficulty: "Beginner"
   },
   {
-    category: "AI Quality & Evaluation",
-    title: "How to Evaluate LLMs and RAG in Production with DeepEval",
+    category: "Curated Channels",
+    title: "Krish Naik Generative AI & LangChain Playlists",
     type: "youtube",
-    url: "https://www.youtube.com/watch?v=deepeval-eval",
-    author: "Confident AI",
-    whyWatchOrLearn: "Step-by-step walkthrough showing QA engineers how to write unit tests for Faithfulness, Hallucination, and G-Eval scoring in Pytest and CI/CD.",
+    url: "https://www.youtube.com/@krishnaik06/playlists",
+    author: "Krish Naik",
+    whyWatchOrLearn: "Extensive hands-on playlists covering LangChain, LlamaIndex, End-to-End GenAI projects, and cloud deployment pipelines.",
+    difficulty: "Beginner"
+  },
+  {
+    category: "Curated Channels",
+    title: "AI Engineer Talks & Global Summit",
+    type: "youtube",
+    url: "https://www.youtube.com/@aiDotEngineer",
+    author: "AI Engineer",
+    whyWatchOrLearn: "Keynotes and architecture breakdowns from frontier AI engineers building autonomous agents, eval frameworks, and enterprise RAG.",
+    difficulty: "Advanced"
+  },
+  {
+    category: "Curated Channels",
+    title: "Code With Aarohi GenAI Tutorials",
+    type: "youtube",
+    url: "https://www.youtube.com/@CodeWithAarohi/playlists",
+    author: "Code With Aarohi",
+    whyWatchOrLearn: "Practical, beginner-friendly video walkthroughs on building RAG assistants, fine-tuning, and open-source models.",
+    difficulty: "Beginner"
+  },
+  {
+    category: "Enterprise Cloud AI",
+    title: "Google Cloud Tech AI & Vertex AI Playlists",
+    type: "youtube",
+    url: "https://www.youtube.com/@googlecloudtech/playlists",
+    author: "Google Cloud Tech",
+    whyWatchOrLearn: "Official tutorials covering Gemini API integration, Vertex AI agent builders, Cloud Run deployment, and enterprise governance.",
     difficulty: "Intermediate"
+  },
+  {
+    category: "Interactive Visual",
+    title: "Transformer Explainer: LLM Transformer Model Visually Explained",
+    type: "doc",
+    url: "https://poloclub.github.io/transformer-explainer/",
+    author: "Polo Club of Data Science",
+    whyWatchOrLearn: "Interactive in-browser visualization showing token embeddings, Q/K/V attention weight matrices, and softmax probability distributions in real time.",
+    difficulty: "Beginner"
+  },
+  {
+    category: "Interactive Course",
+    title: "Foundation: Introduction to LangChain - Python",
+    type: "course",
+    url: "https://academy.langchain.com/courses/take/foundation-introduction-to-langchain-python/lessons/71234843-course-overview",
+    author: "LangChain Academy",
+    whyWatchOrLearn: "Official certification foundation course covering prompt templates, LCEL composition, memory, and retrieval chains.",
+    difficulty: "Beginner"
   }
 ];
 
@@ -876,6 +968,61 @@ export const CURATED_GITHUB_REPOSITORIES: CuratedResourceItem[] = [
     whatYouWillLearn: "Writing deterministic unit tests for non-deterministic LLMs and generating test reports in GitHub Actions."
   },
   {
+    category: "AI Quality & Testing Agent",
+    title: "TestTeller Agent: AI-Powered Test Cases & Automation Agent",
+    type: "github",
+    url: "https://github.com/iAviPro/testteller-agent",
+    author: "iAviPro",
+    whyWatchOrLearn: "AI-powered test agent for comprehensive test case generation and test automation leveraging RAG architecture and GenAI.",
+    difficulty: "Intermediate",
+    prerequisites: "Python, RAG, Test Automation",
+    whatYouWillLearn: "Requirement analysis with vector retrieval and automated test script generation."
+  },
+  {
+    category: "Agentic AI",
+    title: "500 AI Agents Projects: Practical Industry Use Cases",
+    type: "github",
+    url: "https://github.com/ashishpatel26/500-AI-Agents-Projects",
+    author: "Ashish Patel",
+    whyWatchOrLearn: "A massive curated collection of AI agent architectures across industries with runnable open-source starter code.",
+    difficulty: "Intermediate",
+    prerequisites: "Python 3.10+, LangChain or LangGraph",
+    whatYouWillLearn: "Practical agent design patterns for web research, code review, data analysis, and workflow automation."
+  },
+  {
+    category: "Agentic AI",
+    title: "Microsoft AI Agents for Beginners: 18 Lessons Curriculum",
+    type: "github",
+    url: "https://github.com/microsoft/ai-agents-for-beginners",
+    author: "Microsoft",
+    whyWatchOrLearn: "Microsoft's official 18-lesson comprehensive curriculum on building AI agents with practical exercises and design patterns.",
+    difficulty: "Beginner",
+    prerequisites: "Basic Python",
+    whatYouWillLearn: "Foundations of AI agents, planning, tool usage, multi-agent communication, and evaluation."
+  },
+  {
+    category: "Agentic AI",
+    title: "Awesome LLM Apps: 100+ AI Agents, Skills, and RAG Apps",
+    type: "github",
+    url: "https://github.com/Shubhamsaboo/awesome-llm-apps",
+    author: "Shubham Saboo",
+    whyWatchOrLearn: "Production-ready code samples for 100+ AI agents, agent skills, and RAG applications built with modern frameworks.",
+    difficulty: "Intermediate",
+    prerequisites: "Python, Streamlit or FastAPI",
+    whatYouWillLearn: "Building complete multimodal, reasoning, and voice-enabled agent applications."
+  },
+  {
+    category: "Agentic AI & MCP",
+    title: "NVIDIA AI Agent Skills: Published Tool Packages",
+    type: "github",
+    url: "https://github.com/NVIDIA/skills",
+    author: "NVIDIA",
+    whyWatchOrLearn: "Official AI agent skill definitions and tool execution interfaces developed and maintained by NVIDIA.",
+    difficulty: "Advanced",
+    prerequisites: "Python 3.11, Docker",
+    whatYouWillLearn: "Standardized agent skill packaging, tool sandboxing, and execution."
+  },
+  {
     category: "Model Context Protocol (MCP)",
     title: "Official Model Context Protocol Servers Repository",
     type: "github",
@@ -898,6 +1045,39 @@ export const CURATED_GITHUB_REPOSITORIES: CuratedResourceItem[] = [
     whatYouWillLearn: "State management, time-travel debugging, human-in-the-loop, and multi-agent coordination."
   },
   {
+    category: "RAG & Parsing",
+    title: "Microsoft MarkItDown: Convert Documents to Markdown for RAG",
+    type: "github",
+    url: "https://github.com/microsoft/markitdown",
+    author: "Microsoft",
+    whyWatchOrLearn: "Python utility for converting Office documents, PDFs, PowerPoint, and audio files into clean Markdown for high-accuracy RAG chunking.",
+    difficulty: "Beginner",
+    prerequisites: "Python",
+    whatYouWillLearn: "Clean document pre-processing and parsing to maximize vector retrieval fidelity."
+  },
+  {
+    category: "Prompt Engineering",
+    title: "Awesome ChatGPT Prompts (prompts.chat)",
+    type: "github",
+    url: "https://github.com/f/prompts.chat",
+    author: "Fatih Kadir Akın",
+    whyWatchOrLearn: "The most popular open-source prompt repository showcasing persona engineering, few-shot prompting, and task framing.",
+    difficulty: "Beginner",
+    prerequisites: "None",
+    whatYouWillLearn: "Mastering system prompt framing, role playing, and output formatting."
+  },
+  {
+    category: "Generative AI Roadmap",
+    title: "Generative AI Master Roadmap & Interview Prep",
+    type: "github",
+    url: "https://github.com/genieincodebottle/generative-ai",
+    author: "Genie In Code Bottle",
+    whyWatchOrLearn: "Comprehensive resources on Generative AI including roadmap, projects, use cases, coding preparation, and interview questions.",
+    difficulty: "Beginner",
+    prerequisites: "Python basics",
+    whatYouWillLearn: "Curated learning paths, architecture blueprints, and technical interview drills."
+  },
+  {
     category: "Automation & Testing",
     title: "Playwright Python: Fast and reliable end-to-end testing",
     type: "github",
@@ -907,6 +1087,146 @@ export const CURATED_GITHUB_REPOSITORIES: CuratedResourceItem[] = [
     difficulty: "Beginner",
     prerequisites: "Python basics",
     whatYouWillLearn: "Cross-browser testing, headless CI automation, and async browser control."
+  },
+  {
+    category: "Python Practice",
+    title: "Python Mini Projects: Beginner to Advanced",
+    type: "github",
+    url: "https://github.com/ndleah/python-mini-project",
+    author: "Leah Nguyen",
+    whyWatchOrLearn: "Open-source hands-on Python mini-projects with clean source code, ideal for building daily Python problem-solving fluency.",
+    difficulty: "Beginner",
+    prerequisites: "Basic Python",
+    whatYouWillLearn: "Practical scripting, file manipulation, and algorithm practice."
+  }
+];
+
+export const CURATED_AI_ARTICLES_AND_TOOLS: CuratedResourceItem[] = [
+  {
+    category: "AI Evaluation & Benchmarks",
+    title: "Chatbot Arena Leaderboard (LMSYS)",
+    type: "doc",
+    url: "https://arena.ai/leaderboard",
+    author: "LMSYS Org",
+    whyWatchOrLearn: "The gold standard crowdsourced human evaluation leaderboard benchmarking GPT-4o, Claude 3.5, Gemini, DeepSeek, and open-source models using Elo ratings.",
+    difficulty: "Beginner"
+  },
+  {
+    category: "AI Evaluation & Benchmarks",
+    title: "Artificial Analysis: LLM & API Provider Benchmarks",
+    type: "doc",
+    url: "https://artificialanalysis.ai/",
+    author: "Artificial Analysis",
+    whyWatchOrLearn: "Independent empirical data on latency (TTFT), token generation speed (tokens/sec), pricing per million tokens, and quality indices across cloud providers.",
+    difficulty: "Intermediate"
+  },
+  {
+    category: "RAG Quality Engineering",
+    title: "RAG Evaluation Interactive Dashboard (Streamlit Workshop)",
+    type: "doc",
+    url: "https://llm-rag-testing-workshop.streamlit.app/Evaluation",
+    author: "AI QE Community",
+    whyWatchOrLearn: "Interactive in-browser app demonstrating automated Faithfulness, Answer Relevance, and Context Precision scorecards on live test queries.",
+    difficulty: "Intermediate"
+  },
+  {
+    category: "RAG Architecture",
+    title: "All You Need to Know About RAG in 2026",
+    type: "doc",
+    url: "https://aishwaryasrinivasan.substack.com/p/all-you-need-to-know-about-rag-in",
+    author: "Aishwarya Srinivasan",
+    whyWatchOrLearn: "A masterclass Substack guide covering modern retrieval architectures, agentic RAG, graph RAG, and multimodal knowledge stores.",
+    difficulty: "Intermediate"
+  },
+  {
+    category: "Model Context Protocol (MCP)",
+    title: "30+ MCP Ideas with Complete Source Code",
+    type: "doc",
+    url: "https://medium.com/@ayusharmaa.011/30-mcp-ideas-with-complete-source-code-f0bc21fa7754",
+    author: "Ayush Sharma",
+    whyWatchOrLearn: "Invaluable practical ideas with code templates for building MCP servers connecting tools, databases, test suites, and APIs to LLMs.",
+    difficulty: "Intermediate"
+  },
+  {
+    category: "Model Context Protocol (MCP)",
+    title: "MCP Evaluation Quickstart with DeepEval",
+    type: "doc",
+    url: "https://deepeval.com/docs/getting-started-mcp",
+    author: "DeepEval Docs",
+    whyWatchOrLearn: "Official guide on benchmarking and unit-testing Model Context Protocol tool servers to prevent schema hallucinations and tool call failures.",
+    difficulty: "Intermediate"
+  },
+  {
+    category: "Context Engineering",
+    title: "Context Engineering in Deep Agents",
+    type: "doc",
+    url: "https://docs.langchain.com/oss/python/deepagents/context-engineering",
+    author: "LangChain Documentation",
+    whyWatchOrLearn: "Best practices for managing multi-turn agent memory, context pruning, hierarchical summaries, and avoiding context window bloat.",
+    difficulty: "Advanced"
+  },
+  {
+    category: "Career & Roadmap",
+    title: "The Agent Engineer · 2026 Roadmap",
+    type: "doc",
+    url: "https://ch-balaji.github.io/ai-engineer-roadmap/",
+    author: "Balaji CH",
+    whyWatchOrLearn: "Visual interactive roadmap detailing the progression from software engineering and QA into autonomous AI systems engineering.",
+    difficulty: "Beginner"
+  },
+  {
+    category: "RAG Portfolio Guide",
+    title: "10 RAG Projects for Real-World AI Engineering Skills",
+    type: "doc",
+    url: "https://www.linkedin.com/posts/shubhamvora05_if-you-want-your-ai-portfolio-to-stand-out-activity-7461257104717352960-z5ph",
+    author: "Shubham Vora",
+    whyWatchOrLearn: "Curated breakdown of high-impact portfolio projects that impress hiring managers by showcasing end-to-end RAG architecture.",
+    difficulty: "Intermediate"
+  },
+  {
+    category: "Research Assistant",
+    title: "Google NotebookLM",
+    type: "doc",
+    url: "https://notebooklm.google.com/",
+    author: "Google Labs",
+    whyWatchOrLearn: "Groundbreaking grounded research tool allowing developers to upload architecture PDFs, codebases, and PRDs for hallucination-free grounded Q&A.",
+    difficulty: "Beginner"
+  },
+  {
+    category: "Prompt Engineering",
+    title: "The World's Largest Free AI Prompt Library",
+    type: "doc",
+    url: "https://youmind.com/prompts",
+    author: "YouMind",
+    whyWatchOrLearn: "Searchable directory of categorized prompt templates for software engineering, testing, data extraction, and content synthesis.",
+    difficulty: "Beginner"
+  },
+  {
+    category: "Prompt Course",
+    title: "ChatGPT for Everyone: Prompt Engineering Course",
+    type: "course",
+    url: "https://learnprompting.thinkific.com/courses/take/ChatGPT-for-Everyone/",
+    author: "LearnPrompting",
+    whyWatchOrLearn: "Structured interactive course teaching zero-shot, few-shot, chain-of-thought, and directional stimulus prompting.",
+    difficulty: "Beginner"
+  },
+  {
+    category: "Developer Cheat Sheets",
+    title: "QuickRef.ME Developer Quick Reference",
+    type: "doc",
+    url: "https://quickref.me/",
+    author: "QuickRef",
+    whyWatchOrLearn: "Ultra-fast cheat sheets for Python, Docker, Git, Regex, Bash, and modern backend frameworks.",
+    difficulty: "Beginner"
+  },
+  {
+    category: "Engineering Roadmaps",
+    title: "roadmap.sh: Community Driven Developer Roadmaps",
+    type: "doc",
+    url: "https://roadmap.sh/",
+    author: "roadmap.sh",
+    whyWatchOrLearn: "Interactive step-by-step roadmaps for Python, AI Engineer, Backend Developer, QA, and DevOps tracks.",
+    difficulty: "Beginner"
   }
 ];
 
