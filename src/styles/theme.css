@@ -1,8 +1,50 @@
-/* Professional Engineering Theme System (Linear & GitHub Obsidian Dark / Studio Clean Light) */
+/* Clean White & Black Theme System */
 
-/* Dark Theme (Default - Refined Titanium & Obsidian Slate) */
-[data-theme="dark"],
-:root:not([data-theme="light"]) {
+/* Light Theme (Default: Crisp White Background & Deep Black Typography) */
+:root,
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-glass: rgba(255, 255, 255, 0.92);
+  --bg-code: #f1f5f9;
+
+  --border-subtle: #e2e8f0;
+  --border-default: #cbd5e1;
+  --border-strong: #94a3b8;
+  --border-glow: rgba(0, 0, 0, 0.08);
+
+  --text-primary: #09090b;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+
+  /* Solid Black Accents & Buttons */
+  --accent-primary: #09090b;
+  --accent-primary-hover: #18181b;
+  --accent-primary-text: #ffffff;
+
+  --accent-secondary: #f1f5f9;
+  --accent-secondary-hover: #e2e8f0;
+
+  --accent-subtle: rgba(9, 9, 11, 0.04);
+  --accent-subtle-hover: rgba(9, 9, 11, 0.08);
+  --accent-border: rgba(9, 9, 11, 0.14);
+
+  /* Clean Gradients */
+  --grad-hero: linear-gradient(180deg, #09090b 0%, #334155 100%);
+  --grad-card: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  --grad-accent: linear-gradient(180deg, #09090b 0%, #18181b 100%);
+  --grad-border: linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.02) 100%);
+
+  --grid-color: rgba(0, 0, 0, 0.035);
+  --spotlight-glow: radial-gradient(600px circle at 50% 0%, rgba(0, 0, 0, 0.03), transparent 80%);
+}
+
+/* Dark Theme (Optional Toggle) */
+[data-theme="dark"] {
   --bg-primary: #0d1117;
   --bg-secondary: #161b22;
   --bg-tertiary: #21262d;
@@ -41,46 +83,4 @@
   
   --grid-color: rgba(240, 246, 252, 0.035);
   --spotlight-glow: radial-gradient(600px circle at 50% 0%, rgba(240, 246, 252, 0.06), transparent 80%);
-}
-
-/* Light Theme (Minimalist Clean Studio Slate) */
-[data-theme="light"] {
-  --bg-primary: #f6f8fa;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #eaeef2;
-  --bg-card: rgba(255, 255, 255, 0.98);
-  --bg-card-hover: #f3f4f6;
-  --bg-glass: rgba(246, 248, 250, 0.88);
-  --bg-code: #edf2f7;
-
-  --border-subtle: #d0d7de;
-  --border-default: #afb8c1;
-  --border-strong: #6e7781;
-  --border-glow: rgba(31, 35, 40, 0.08);
-
-  --text-primary: #1f2328;
-  --text-secondary: #57606a;
-  --text-muted: #6e7781;
-  --text-inverse: #ffffff;
-
-  /* Clean Studio Accents */
-  --accent-primary: #1f2328;
-  --accent-primary-hover: #24292f;
-  --accent-primary-text: #ffffff;
-
-  --accent-secondary: #eaeef2;
-  --accent-secondary-hover: #d0d7de;
-
-  --accent-subtle: rgba(31, 35, 40, 0.04);
-  --accent-subtle-hover: rgba(31, 35, 40, 0.08);
-  --accent-border: rgba(31, 35, 40, 0.12);
-
-  /* Gradients */
-  --grad-hero: linear-gradient(180deg, #1f2328 0%, #424a53 100%);
-  --grad-card: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-  --grad-accent: linear-gradient(180deg, #1f2328 0%, #24292f 100%);
-  --grad-border: linear-gradient(180deg, rgba(31, 35, 40, 0.15) 0%, rgba(31, 35, 40, 0.03) 100%);
-
-  --grid-color: rgba(31, 35, 40, 0.035);
-  --spotlight-glow: radial-gradient(600px circle at 50% 0%, rgba(31, 35, 40, 0.04), transparent 80%);
 }
