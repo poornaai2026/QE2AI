@@ -1,86 +1,86 @@
-/* Pure Modern Black & White / Monochrome Theme System */
+/* Professional Engineering Theme System (Linear & GitHub Obsidian Dark / Studio Clean Light) */
 
-/* Dark Theme (Default - Sleek Monochrome Studio) */
+/* Dark Theme (Default - Refined Titanium & Obsidian Slate) */
 [data-theme="dark"],
 :root:not([data-theme="light"]) {
-  --bg-primary: #000000;
-  --bg-secondary: #09090b;
-  --bg-tertiary: #141417;
-  --bg-card: rgba(14, 14, 18, 0.75);
-  --bg-card-hover: rgba(22, 22, 28, 0.9);
-  --bg-glass: rgba(0, 0, 0, 0.82);
-  --bg-code: #08080a;
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #21262d;
+  --bg-card: rgba(22, 27, 34, 0.85);
+  --bg-card-hover: rgba(30, 36, 46, 0.95);
+  --bg-glass: rgba(13, 17, 23, 0.85);
+  --bg-code: #0b0f14;
   
-  --border-subtle: #1c1c22;
-  --border-default: #2a2a32;
-  --border-strong: #40404c;
-  --border-glow: rgba(255, 255, 255, 0.25);
+  --border-subtle: #21262d;
+  --border-default: #30363d;
+  --border-strong: #484f58;
+  --border-glow: rgba(240, 246, 252, 0.15);
 
-  --text-primary: #ffffff;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
-  --text-inverse: #000000;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #6e7681;
+  --text-inverse: #0d1117;
 
-  /* Crisp Monochrome Accents */
-  --accent-primary: #ffffff;
-  --accent-primary-hover: #e4e4e7;
-  --accent-primary-text: #000000;
+  /* Refined Titanium Accents */
+  --accent-primary: #f0f6fc;
+  --accent-primary-hover: #ffffff;
+  --accent-primary-text: #0d1117;
   
-  --accent-secondary: #27272a;
-  --accent-secondary-hover: #3f3f46;
+  --accent-secondary: #21262d;
+  --accent-secondary-hover: #30363d;
   
-  --accent-subtle: rgba(255, 255, 255, 0.07);
-  --accent-subtle-hover: rgba(255, 255, 255, 0.12);
-  --accent-border: rgba(255, 255, 255, 0.18);
+  --accent-subtle: rgba(240, 246, 252, 0.06);
+  --accent-subtle-hover: rgba(240, 246, 252, 0.10);
+  --accent-border: rgba(240, 246, 252, 0.15);
 
-  /* Subtle Monochrome Grids & Gradients */
-  --grad-hero: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
-  --grad-card: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-  --grad-accent: linear-gradient(180deg, #ffffff 0%, #e4e4e7 100%);
-  --grad-border: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.03) 100%);
+  /* Subtle Smooth Gradients */
+  --grad-hero: linear-gradient(180deg, #f0f6fc 0%, #8b949e 100%);
+  --grad-card: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.005) 100%);
+  --grad-accent: linear-gradient(180deg, #f0f6fc 0%, #d0d7de 100%);
+  --grad-border: linear-gradient(180deg, rgba(240, 246, 252, 0.20) 0%, rgba(240, 246, 252, 0.02) 100%);
   
-  --grid-color: rgba(255, 255, 255, 0.03);
-  --spotlight-glow: radial-gradient(600px circle at 50% 0%, rgba(255, 255, 255, 0.06), transparent 80%);
+  --grid-color: rgba(240, 246, 252, 0.035);
+  --spotlight-glow: radial-gradient(600px circle at 50% 0%, rgba(240, 246, 252, 0.06), transparent 80%);
 }
 
-/* Light Theme (Minimalist Clean Monochrome) */
+/* Light Theme (Minimalist Clean Studio Slate) */
 [data-theme="light"] {
-  --bg-primary: #ffffff;
-  --bg-secondary: #fafafa;
-  --bg-tertiary: #f4f4f5;
-  --bg-card: rgba(255, 255, 255, 0.95);
-  --bg-card-hover: #f4f4f5;
-  --bg-glass: rgba(255, 255, 255, 0.88);
-  --bg-code: #f4f4f5;
+  --bg-primary: #f6f8fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eaeef2;
+  --bg-card: rgba(255, 255, 255, 0.98);
+  --bg-card-hover: #f3f4f6;
+  --bg-glass: rgba(246, 248, 250, 0.88);
+  --bg-code: #edf2f7;
 
-  --border-subtle: #e4e4e7;
-  --border-default: #d4d4d8;
-  --border-strong: #a1a1aa;
-  --border-glow: rgba(0, 0, 0, 0.12);
+  --border-subtle: #d0d7de;
+  --border-default: #afb8c1;
+  --border-strong: #6e7781;
+  --border-glow: rgba(31, 35, 40, 0.08);
 
-  --text-primary: #09090b;
-  --text-secondary: #52525b;
-  --text-muted: #71717a;
+  --text-primary: #1f2328;
+  --text-secondary: #57606a;
+  --text-muted: #6e7781;
   --text-inverse: #ffffff;
 
-  /* Crisp Monochrome Accents */
-  --accent-primary: #09090b;
-  --accent-primary-hover: #27272a;
+  /* Clean Studio Accents */
+  --accent-primary: #1f2328;
+  --accent-primary-hover: #24292f;
   --accent-primary-text: #ffffff;
 
-  --accent-secondary: #e4e4e7;
-  --accent-secondary-hover: #d4d4d8;
+  --accent-secondary: #eaeef2;
+  --accent-secondary-hover: #d0d7de;
 
-  --accent-subtle: rgba(0, 0, 0, 0.04);
-  --accent-subtle-hover: rgba(0, 0, 0, 0.08);
-  --accent-border: rgba(0, 0, 0, 0.16);
+  --accent-subtle: rgba(31, 35, 40, 0.04);
+  --accent-subtle-hover: rgba(31, 35, 40, 0.08);
+  --accent-border: rgba(31, 35, 40, 0.12);
 
-  /* Monochrome Gradients */
-  --grad-hero: linear-gradient(180deg, #09090b 0%, #3f3f46 100%);
-  --grad-card: linear-gradient(180deg, #ffffff 0%, #fcfcfc 100%);
-  --grad-accent: linear-gradient(180deg, #09090b 0%, #18181b 100%);
-  --grad-border: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.03) 100%);
+  /* Gradients */
+  --grad-hero: linear-gradient(180deg, #1f2328 0%, #424a53 100%);
+  --grad-card: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  --grad-accent: linear-gradient(180deg, #1f2328 0%, #24292f 100%);
+  --grad-border: linear-gradient(180deg, rgba(31, 35, 40, 0.15) 0%, rgba(31, 35, 40, 0.03) 100%);
 
-  --grid-color: rgba(0, 0, 0, 0.035);
-  --spotlight-glow: radial-gradient(600px circle at 50% 0%, rgba(0, 0, 0, 0.04), transparent 80%);
+  --grid-color: rgba(31, 35, 40, 0.035);
+  --spotlight-glow: radial-gradient(600px circle at 50% 0%, rgba(31, 35, 40, 0.04), transparent 80%);
 }
