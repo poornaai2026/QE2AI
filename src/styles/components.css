@@ -83,7 +83,7 @@
   color: var(--text-secondary);
   padding: 0.45rem 0.75rem;
   border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
+  transition: transform var(--transition-bounce), color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
   display: flex;
   align-items: center;
   gap: 0.35rem;
@@ -94,6 +94,11 @@
   color: var(--text-primary);
   background: var(--accent-subtle);
   border-color: var(--border-subtle);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.nav-item-link:active {
+  transform: translateY(0) scale(0.97);
 }
 
 .nav-item-link.active {
@@ -101,6 +106,14 @@
   background: var(--accent-subtle);
   border-color: var(--border-default);
   font-weight: 600;
+}
+
+.nav-brand {
+  transition: transform var(--transition-bounce);
+}
+
+.nav-brand:hover {
+  transform: scale(1.04);
 }
 
 .nav-actions {
@@ -119,13 +132,15 @@
   border-radius: var(--radius-sm);
   color: var(--text-muted);
   font-size: var(--text-xs);
-  transition: all var(--transition-fast);
+  transition: transform var(--transition-bounce), border-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-bounce);
   cursor: pointer;
 }
 
 .search-trigger-btn:hover {
   border-color: var(--border-strong);
   color: var(--text-primary);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
 }
 
 .kbd-shortcut {
@@ -148,7 +163,7 @@
   color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
   background: var(--bg-secondary);
-  transition: all var(--transition-fast);
+  transition: transform var(--transition-bounce), color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-bounce);
   cursor: pointer;
 }
 
@@ -156,6 +171,12 @@
   color: var(--text-primary);
   border-color: var(--border-strong);
   background: var(--bg-tertiary);
+  transform: translateY(-3px) scale(1.12);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.icon-btn:active {
+  transform: translateY(0) scale(0.92);
 }
 
 /* Mobile Menu Toggle */
@@ -173,7 +194,7 @@
   font-size: var(--text-sm);
   font-weight: 600;
   border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
+  transition: transform var(--transition-bounce), box-shadow var(--transition-bounce), background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
   text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
@@ -187,12 +208,16 @@
 
 .btn-primary:hover {
   background: var(--accent-primary-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.12);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 10px 22px -4px rgba(0, 0, 0, 0.22);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.96);
 }
 
 .btn-secondary {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border: 1px solid var(--border-default);
   color: var(--text-primary);
 }
@@ -200,7 +225,12 @@
 .btn-secondary:hover {
   background: var(--bg-tertiary);
   border-color: var(--border-strong);
-  transform: translateY(-1px);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 18px -4px rgba(0, 0, 0, 0.12);
+}
+
+.btn-secondary:active {
+  transform: translateY(0) scale(0.96);
 }
 
 .btn-ghost {
@@ -213,6 +243,11 @@
   color: var(--text-primary);
   background: var(--accent-subtle);
   border-color: var(--border-subtle);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.btn-ghost:active {
+  transform: translateY(0) scale(0.97);
 }
 
 .btn-sm {
@@ -232,7 +267,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.2rem 0.6rem;
+  padding: 0.25rem 0.65rem;
   font-size: 0.72rem;
   font-weight: 600;
   border-radius: var(--radius-xs);
@@ -240,6 +275,12 @@
   background: var(--bg-tertiary);
   color: var(--text-secondary);
   border: 1px solid var(--border-default);
+  transition: transform var(--transition-bounce), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.badge:hover {
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .badge-outline {
@@ -290,16 +331,20 @@
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   padding: 1.75rem;
-  transition: all var(--transition-normal);
+  transition: transform var(--transition-bounce), box-shadow var(--transition-bounce), border-color var(--transition-fast), background-color var(--transition-fast);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
 .card:hover {
-  border-color: var(--border-strong);
+  border-color: var(--text-primary);
   background: var(--bg-card-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  transform: translateY(-5px) scale(1.015);
+  box-shadow: var(--shadow-bounce);
+}
+
+.card:active {
+  transform: translateY(-2px) scale(0.99);
 }
 
 .card-interactive {
@@ -307,7 +352,7 @@
 }
 
 .card-interactive:hover {
-  border-color: var(--text-secondary);
+  border-color: var(--text-primary);
 }
 
 /* --- Code Block --- */
@@ -476,12 +521,13 @@
   flex-direction: column;
   gap: 0.2rem;
   cursor: pointer;
-  transition: background var(--transition-fast);
+  transition: transform var(--transition-bounce), background var(--transition-fast);
 }
 
 .search-result-item:hover,
 .search-result-item.selected {
   background: var(--accent-subtle);
+  transform: translateX(4px) scale(1.01);
 }
 
 .search-result-title {
@@ -496,6 +542,32 @@
 .search-result-desc {
   font-size: var(--text-xs);
   color: var(--text-muted);
+}
+
+/* --- Table Rows Bouncy Hover --- */
+table tbody tr {
+  transition: transform var(--transition-bounce), background-color var(--transition-fast), box-shadow var(--transition-bounce);
+}
+
+table tbody tr:hover {
+  transform: scale(1.008);
+  background-color: var(--bg-tertiary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Flowchart & Roadmap Step Cards Bouncy Hover --- */
+.flowchart-step-card,
+.roadmap-step-card,
+.feature-card {
+  transition: transform var(--transition-bounce), box-shadow var(--transition-bounce), border-color var(--transition-fast);
+}
+
+.flowchart-step-card:hover,
+.roadmap-step-card:hover,
+.feature-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--shadow-bounce);
+  border-color: var(--text-primary);
 }
 
 /* Responsive adjustments */

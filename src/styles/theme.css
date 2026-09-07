@@ -7,39 +7,39 @@
   --bg-secondary: #f8fafc;
   --bg-tertiary: #f1f5f9;
   --bg-card: #ffffff;
-  --bg-card-hover: #f8fafc;
-  --bg-glass: rgba(255, 255, 255, 0.92);
+  --bg-card-hover: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.95);
   --bg-code: #f1f5f9;
 
   --border-subtle: #e2e8f0;
   --border-default: #cbd5e1;
-  --border-strong: #94a3b8;
+  --border-strong: #64748b;
   --border-glow: rgba(0, 0, 0, 0.08);
 
-  --text-primary: #09090b;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
+  --text-primary: #000000;
+  --text-secondary: #1e293b;
+  --text-muted: #475569;
   --text-inverse: #ffffff;
 
   /* Solid Black Accents & Buttons */
-  --accent-primary: #09090b;
+  --accent-primary: #000000;
   --accent-primary-hover: #18181b;
   --accent-primary-text: #ffffff;
 
   --accent-secondary: #f1f5f9;
   --accent-secondary-hover: #e2e8f0;
 
-  --accent-subtle: rgba(9, 9, 11, 0.04);
-  --accent-subtle-hover: rgba(9, 9, 11, 0.08);
-  --accent-border: rgba(9, 9, 11, 0.14);
+  --accent-subtle: rgba(0, 0, 0, 0.05);
+  --accent-subtle-hover: rgba(0, 0, 0, 0.09);
+  --accent-border: rgba(0, 0, 0, 0.16);
 
   /* Clean Gradients */
-  --grad-hero: linear-gradient(180deg, #09090b 0%, #334155 100%);
+  --grad-hero: linear-gradient(180deg, #000000 0%, #1e293b 100%);
   --grad-card: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
-  --grad-accent: linear-gradient(180deg, #09090b 0%, #18181b 100%);
-  --grad-border: linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.02) 100%);
+  --grad-accent: linear-gradient(180deg, #000000 0%, #18181b 100%);
+  --grad-border: linear-gradient(180deg, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0.03) 100%);
 
-  --grid-color: rgba(0, 0, 0, 0.035);
+  --grid-color: rgba(0, 0, 0, 0.04);
   --spotlight-glow: radial-gradient(600px circle at 50% 0%, rgba(0, 0, 0, 0.03), transparent 80%);
 }
 
