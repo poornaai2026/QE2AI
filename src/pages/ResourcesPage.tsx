@@ -11,6 +11,7 @@ import {
   CURATED_GITHUB_REPOSITORIES 
 } from '../content/qe2aiBlueprintData';
 import { GithubIcon } from '../components/common/Icons';
+import { TokenCostCalculator } from '../components/interactive/TokenCostCalculator';
 
 export const ResourcesPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'llms' | 'youtube' | 'github'>('llms');
@@ -108,7 +109,10 @@ export const ResourcesPage: React.FC = () => {
 
         {/* TAB 1: FREE LLM PROVIDERS TABLE */}
         {activeTab === 'llms' && (
-          <div className="card" style={{ padding: 0, overflow: 'hidden', background: 'var(--bg-secondary)', border: '1px solid var(--border-default)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+            <TokenCostCalculator />
+
+            <div className="card" style={{ padding: 0, overflow: 'hidden', background: 'var(--bg-secondary)', border: '1px solid var(--border-default)' }}>
             <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <h3 style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--text-primary)' }}>
@@ -174,6 +178,7 @@ export const ResourcesPage: React.FC = () => {
                 </tbody>
               </table>
             </div>
+          </div>
           </div>
         )}
 

@@ -4,6 +4,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { GithubIcon } from '../components/common/Icons';
+import { RagTroubleshooter } from '../components/interactive/RagTroubleshooter';
 
 export const TestAIPage: React.FC = () => {
   const qePillars = [
@@ -161,6 +162,11 @@ export const TestAIPage: React.FC = () => {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Interactive RAG Quality Troubleshooter */}
+        <div style={{ marginBottom: '3.5rem' }}>
+          <RagTroubleshooter />
         </div>
 
         {/* 3 Pillars Breakdown */}
