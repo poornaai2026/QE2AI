@@ -1,0 +1,16 @@
+[
+  {
+    "id": "eval_01",
+    "question": "What is the return policy window for defective electronic items?",
+    "retrieved_context": "Electronic items with verified manufacturer defects can be returned for full refund or exchange within 30 days of purchase.",
+    "model_answer": "Defective electronic items can be returned within 30 days for a full refund or exchange.",
+    "ground_truth": "30 days from purchase with full refund or exchange."
+  },
+  {
+    "id": "eval_02",
+    "question": "Can I cancel an order after it has been shipped?",
+    "retrieved_context": "Orders cannot be canceled once shipped. Customers must initiate a return after receiving the package.",
+    "model_answer": "No, once an order has shipped it cannot be canceled. You must wait for delivery and then initiate a return.",
+    "ground_truth": "No, shipped orders cannot be canceled; return must be initiated after delivery."
+  }
+]

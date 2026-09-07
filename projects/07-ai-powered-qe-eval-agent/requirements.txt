@@ -1,0 +1,6 @@
+ragas>=0.1.0
+deepeval>=0.21.0
+pytest>=8.0.0
+datasets>=2.18.0
+pandas>=2.2.0
+rich>=13.7.0

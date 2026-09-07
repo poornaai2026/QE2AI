@@ -1,0 +1,10 @@
+Feature: User Checkout Discount Code Validation
+
+Acceptance Criteria:
+1. Users can apply a promotional discount coupon code during cart checkout.
+2. Coupon code "SAVE20" applies a 20% discount on order subtotal if order value is at least $50.00.
+3. Coupon code "FREESHIP" waives the standard $5.99 shipping fee regardless of subtotal.
+4. Only one coupon code can be active per order. Applying a new code replaces the previous one.
+5. If an expired code or invalid code is submitted, display inline error: "Coupon code is invalid or expired."
+6. Discount must not apply to taxes or gift cards.
+7. Subtotal after discount cannot drop below $0.00.
