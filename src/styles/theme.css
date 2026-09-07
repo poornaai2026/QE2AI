@@ -5,16 +5,16 @@
 :root:not([data-theme="light"]) {
   --bg-primary: #000000;
   --bg-secondary: #09090b;
-  --bg-tertiary: #18181b;
-  --bg-card: #0d0d10;
-  --bg-card-hover: #141418;
-  --bg-glass: rgba(0, 0, 0, 0.88);
-  --bg-code: #0a0a0c;
+  --bg-tertiary: #141417;
+  --bg-card: rgba(14, 14, 18, 0.75);
+  --bg-card-hover: rgba(22, 22, 28, 0.9);
+  --bg-glass: rgba(0, 0, 0, 0.82);
+  --bg-code: #08080a;
   
-  --border-subtle: #1f1f23;
-  --border-default: #2d2d34;
-  --border-strong: #44444e;
-  --border-glow: rgba(255, 255, 255, 0.2);
+  --border-subtle: #1c1c22;
+  --border-default: #2a2a32;
+  --border-strong: #40404c;
+  --border-glow: rgba(255, 255, 255, 0.25);
 
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
@@ -29,15 +29,18 @@
   --accent-secondary: #27272a;
   --accent-secondary-hover: #3f3f46;
   
-  --accent-subtle: rgba(255, 255, 255, 0.08);
+  --accent-subtle: rgba(255, 255, 255, 0.07);
   --accent-subtle-hover: rgba(255, 255, 255, 0.12);
-  --accent-border: rgba(255, 255, 255, 0.2);
+  --accent-border: rgba(255, 255, 255, 0.18);
 
-  /* Monochrome Gradients (Pure high-contrast light to dark) */
+  /* Subtle Monochrome Grids & Gradients */
   --grad-hero: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
-  --grad-card: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --grad-card: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
   --grad-accent: linear-gradient(180deg, #ffffff 0%, #e4e4e7 100%);
-  --grad-border: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.05) 100%);
+  --grad-border: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.03) 100%);
+  
+  --grid-color: rgba(255, 255, 255, 0.03);
+  --spotlight-glow: radial-gradient(600px circle at 50% 0%, rgba(255, 255, 255, 0.06), transparent 80%);
 }
 
 /* Light Theme (Minimalist Clean Monochrome) */
@@ -45,9 +48,9 @@
   --bg-primary: #ffffff;
   --bg-secondary: #fafafa;
   --bg-tertiary: #f4f4f5;
-  --bg-card: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.95);
   --bg-card-hover: #f4f4f5;
-  --bg-glass: rgba(255, 255, 255, 0.92);
+  --bg-glass: rgba(255, 255, 255, 0.88);
   --bg-code: #f4f4f5;
 
   --border-subtle: #e4e4e7;
@@ -68,13 +71,16 @@
   --accent-secondary: #e4e4e7;
   --accent-secondary-hover: #d4d4d8;
 
-  --accent-subtle: rgba(0, 0, 0, 0.05);
+  --accent-subtle: rgba(0, 0, 0, 0.04);
   --accent-subtle-hover: rgba(0, 0, 0, 0.08);
-  --accent-border: rgba(0, 0, 0, 0.18);
+  --accent-border: rgba(0, 0, 0, 0.16);
 
   /* Monochrome Gradients */
   --grad-hero: linear-gradient(180deg, #09090b 0%, #3f3f46 100%);
   --grad-card: linear-gradient(180deg, #ffffff 0%, #fcfcfc 100%);
   --grad-accent: linear-gradient(180deg, #09090b 0%, #18181b 100%);
-  --grad-border: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.05) 100%);
+  --grad-border: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.03) 100%);
+
+  --grid-color: rgba(0, 0, 0, 0.035);
+  --spotlight-glow: radial-gradient(600px circle at 50% 0%, rgba(0, 0, 0, 0.04), transparent 80%);
 }

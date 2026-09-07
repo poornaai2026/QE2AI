@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight, 
@@ -12,20 +12,41 @@ import { QE2AI_TRACKS, AUTHOR_JOURNEY_STORY } from '../content/qe2aiBlueprintDat
 import { GithubIcon } from '../components/common/Icons';
 
 export const HomePage: React.FC = () => {
+  const [activeArchIndex, setActiveArchIndex] = useState(0);
+
+  const architectureHighlights = [
+    {
+      title: "RAG Evaluation Gate",
+      subtitle: "Deterministic assertions vs Probabilistic LLM judges",
+      flow: "Jira Requirement ──▶ LangChain RAG ──▶ Pytest Eval Runner ──▶ Ragas Faithfulness (0.94) ──▶ PR Pass"
+    },
+    {
+      title: "Playwright AI Self-Healing",
+      subtitle: "Runtime DOM analysis and selector recovery",
+      flow: "Element Click Fails ──▶ AI DOM Analyzer ──▶ Semantic Candidate Matching ──▶ Auto-Heal & Resume"
+    },
+    {
+      title: "QE Model Context Protocol",
+      subtitle: "Universal protocol connecting AI to test infrastructure",
+      flow: "AI Assistant (Claude/Cursor) ──▶ FastMCP Server ──▶ Run Playwright Tests ──▶ Fetch Live Logs"
+    }
+  ];
+
   return (
     <div className="animate-fade-in">
-      {/* 1. HERO SECTION */}
-      <section style={{
-        padding: '5rem 0 4rem',
+      {/* 1. HERO SECTION WITH SPOTLIGHT & GRID */}
+      <section className="bg-grid-mesh hero-spotlight" style={{
+        padding: '5.5rem 0 4.5rem',
         borderBottom: '1px solid var(--border-subtle)',
         background: 'var(--bg-primary)',
         position: 'relative'
       }}>
         <div className="container">
-          <div style={{ maxWidth: '820px', margin: '0 auto', textAlign: 'center' }}>
-            {/* Top Pill */}
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
-              <span className="badge badge-inverted" style={{ fontSize: '0.72rem', letterSpacing: '0.06em' }}>
+          <div style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+            {/* Top Badge with Live Beacon */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.5rem' }}>
+              <span className="badge badge-inverted" style={{ fontSize: '0.72rem', letterSpacing: '0.06em', padding: '0.25rem 0.65rem' }}>
+                <span className="live-beacon" style={{ marginRight: '4px' }}></span>
                 QE2AI BLUEPRINT
               </span>
               <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>
@@ -35,9 +56,9 @@ export const HomePage: React.FC = () => {
 
             {/* Headline */}
             <h1 style={{
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              fontWeight: 800,
-              lineHeight: 1.1,
+              fontSize: 'clamp(2.6rem, 5.5vw, 4.25rem)',
+              fontWeight: 900,
+              lineHeight: 1.08,
               letterSpacing: '-0.04em',
               marginBottom: '1.25rem',
               color: 'var(--text-primary)'
@@ -47,7 +68,7 @@ export const HomePage: React.FC = () => {
 
             {/* Supporting Line */}
             <p style={{
-              fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
+              fontSize: 'clamp(1.15rem, 2vw, 1.4rem)',
               color: 'var(--text-primary)',
               fontWeight: 500,
               marginBottom: '1.25rem',
@@ -56,7 +77,7 @@ export const HomePage: React.FC = () => {
               A practical roadmap to learn, build and deploy AI — designed specifically for Quality Engineers.
             </p>
 
-            {/* Message Box */}
+            {/* Core Message Box */}
             <p style={{
               fontSize: 'var(--text-base)',
               color: 'var(--text-secondary)',
@@ -70,7 +91,7 @@ export const HomePage: React.FC = () => {
             </p>
 
             {/* CTAs */}
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '3rem' }}>
               <Link to="/roadmap" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
                 <span>Start Your QE → AI Journey</span>
                 <ArrowRight size={16} />
@@ -90,6 +111,55 @@ export const HomePage: React.FC = () => {
                 <span>GitHub Repo</span>
                 <ArrowUpRight size={14} style={{ opacity: 0.6 }} />
               </a>
+            </div>
+
+            {/* Interactive Architecture Highlight Preview */}
+            <div style={{
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border-strong)',
+              borderRadius: 'var(--radius-sm)',
+              padding: '1.25rem 1.5rem',
+              textAlign: 'left',
+              boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.5)'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', gap: '0.35rem' }}>
+                  {architectureHighlights.map((arch, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveArchIndex(i)}
+                      style={{
+                        padding: '0.25rem 0.6rem',
+                        fontSize: '0.72rem',
+                        borderRadius: 'var(--radius-xs)',
+                        border: `1px solid ${activeArchIndex === i ? 'var(--text-primary)' : 'var(--border-subtle)'}`,
+                        background: activeArchIndex === i ? 'var(--bg-tertiary)' : 'transparent',
+                        color: activeArchIndex === i ? 'var(--text-primary)' : 'var(--text-muted)',
+                        fontWeight: activeArchIndex === i ? 700 : 500,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {arch.title}
+                    </button>
+                  ))}
+                </div>
+                <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                  Interactive Architecture
+                </span>
+              </div>
+              <div style={{
+                background: 'var(--bg-code)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-xs)',
+                padding: '0.85rem 1rem',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.78rem',
+                color: 'var(--text-primary)',
+                overflowX: 'auto',
+                whiteSpace: 'nowrap'
+              }}>
+                {architectureHighlights[activeArchIndex].flow}
+              </div>
             </div>
           </div>
         </div>
@@ -113,7 +183,7 @@ export const HomePage: React.FC = () => {
                 <div style={{
                   width: '2.5rem',
                   height: '2.5rem',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 'var(--radius-xs)',
                   background: 'var(--bg-tertiary)',
                   border: '1px solid var(--border-default)',
                   display: 'flex',
@@ -125,7 +195,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <span className="badge badge-outline">Pillar 01</span>
               </div>
-              <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+              <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
                 Learn
               </h3>
               <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
@@ -142,7 +212,7 @@ export const HomePage: React.FC = () => {
                 <div style={{
                   width: '2.5rem',
                   height: '2.5rem',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 'var(--radius-xs)',
                   background: 'var(--bg-tertiary)',
                   border: '1px solid var(--border-default)',
                   display: 'flex',
@@ -154,7 +224,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <span className="badge badge-outline">Pillar 02</span>
               </div>
-              <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+              <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
                 Build
               </h3>
               <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
@@ -171,7 +241,7 @@ export const HomePage: React.FC = () => {
                 <div style={{
                   width: '2.5rem',
                   height: '2.5rem',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 'var(--radius-xs)',
                   background: 'var(--bg-tertiary)',
                   border: '1px solid var(--border-default)',
                   display: 'flex',
@@ -183,7 +253,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <span className="badge badge-outline">Pillar 03</span>
               </div>
-              <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+              <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
                 Deploy
               </h3>
               <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
@@ -218,7 +288,7 @@ export const HomePage: React.FC = () => {
           <div style={{
             background: 'var(--bg-secondary)',
             border: '1px solid var(--border-default)',
-            borderRadius: 'var(--radius-md)',
+            borderRadius: 'var(--radius-sm)',
             padding: '2rem',
             overflowX: 'auto'
           }}>
@@ -327,7 +397,7 @@ export const HomePage: React.FC = () => {
           <div style={{
             background: 'var(--bg-secondary)',
             border: '1px solid var(--border-default)',
-            borderRadius: 'var(--radius-md)',
+            borderRadius: 'var(--radius-sm)',
             padding: '2.5rem',
             display: 'grid',
             gridTemplateColumns: '1fr',
