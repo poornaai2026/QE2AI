@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { 
   Search, 
   Sparkles, 
@@ -19,12 +20,30 @@ import {
 import { INTERVIEW_CATEGORIES, INTERVIEW_QUESTIONS, type InterviewQuestion } from '../content/interviewData';
 
 export const InterviewPrepPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const initialQuery = searchParams.get('q') || '';
+  const initialId = searchParams.get('id') || null;
+
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
   const [mode, setMode] = useState<'study' | 'flashcard'>('study');
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(initialId);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  // Sync when searchParams change
+  useEffect(() => {
+    const q = searchParams.get('q');
+    const id = searchParams.get('id');
+    if (q !== null) setSearchQuery(q);
+    if (id !== null) {
+      setExpandedId(id);
+      setTimeout(() => {
+        const el = document.getElementById(`q-${id}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }, [searchParams]);
   
   // Flashcard Mode state
   const [flashcardIndex, setFlashcardIndex] = useState<number>(0);

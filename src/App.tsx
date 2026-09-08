@@ -39,6 +39,18 @@ const ScrollToTop: React.FC = () => {
 export const App: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
 
+  // Global keyboard shortcut for Search (⌘K / Ctrl+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <ThemeProvider>
       <BrowserRouter>

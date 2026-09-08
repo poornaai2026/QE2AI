@@ -142,6 +142,35 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
           gap: '0.4rem',
           overflowY: 'auto'
         }}>
+          {/* Mobile Search Button */}
+          <button
+            onClick={() => {
+              closeMobileMenu();
+              onOpenSearch();
+            }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '0.75rem',
+              padding: '0.85rem 1rem',
+              borderRadius: 'var(--radius-sm)',
+              color: 'var(--text-muted)',
+              background: 'var(--bg-tertiary)',
+              border: '1px solid var(--border-default)',
+              fontWeight: 500,
+              fontSize: 'var(--text-sm)',
+              marginBottom: '0.5rem',
+              cursor: 'pointer'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <Search size={16} />
+              <span>Search everything...</span>
+            </div>
+            <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.4rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-xs)', border: '1px solid var(--border-subtle)' }}>⌘K</span>
+          </button>
+
           {navLinks.map(link => {
             const Icon = link.icon;
             const isActive = location.pathname === link.path;
