@@ -36,6 +36,13 @@ interface RoundEvaluation {
   feedback: string;
 }
 
+const getRandomQuestions = (): InterviewQuestion[] => {
+  const scenarioPool = INTERVIEW_QUESTIONS.filter(q => q.categorySlug === 'realtime-scenarios' || q.difficulty === 'Staff/Lead' || q.difficulty === 'Advanced');
+  const pool = scenarioPool.length > 0 ? scenarioPool : INTERVIEW_QUESTIONS;
+  const shuffled = [...pool].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, 3);
+};
+
 export const InterviewPrepPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
@@ -58,7 +65,7 @@ export const InterviewPrepPage: React.FC = () => {
 
   // Simulator Mode state
   const [simulatorActive, setSimulatorActive] = useState<boolean>(isDirectSimulatorRoute);
-  const [simulatorQuestions, setSimulatorQuestions] = useState<InterviewQuestion[]>([]);
+  const [simulatorQuestions, setSimulatorQuestions] = useState<InterviewQuestion[]>(() => getRandomQuestions());
   const [simRound, setSimRound] = useState<number>(0);
   const [simAnswer, setSimAnswer] = useState<string>('');
   const [simTimer, setSimTimer] = useState<number>(600); // 10 minutes
@@ -78,11 +85,12 @@ export const InterviewPrepPage: React.FC = () => {
     
     if (location.pathname === '/simulator' || location.pathname === '/mock-interview' || m === 'simulator') {
       setMode('simulator');
-      startSimulation();
+      setSimulatorActive(true);
+      setIsTimerRunning(true);
       setTimeout(() => {
         const el = document.getElementById('simulator-arena');
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 150);
+      }, 100);
     } else if (m === 'flashcard') {
       setMode('flashcard');
     } else if (m === 'study') {
@@ -129,50 +137,9 @@ export const InterviewPrepPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [simulatorActive, isTimerRunning, simTimer, currentEval, simulationFinished]);
 
-  // Filtered Questions
-  const filteredQuestions = useMemo(() => {
-    return INTERVIEW_QUESTIONS.filter(q => {
-      const matchesCategory = selectedCategory === 'all' || q.categorySlug === selectedCategory;
-      const matchesDifficulty = selectedDifficulty === 'all' || q.difficulty === selectedDifficulty;
-      const matchesMastery = !onlyUnmastered || !masteredIds.includes(q.id);
-
-      const query = searchQuery.toLowerCase().trim();
-      const matchesSearch = !query || 
-        q.question.toLowerCase().includes(query) ||
-        q.shortAnswer.toLowerCase().includes(query) ||
-        q.detailedAnswer.toLowerCase().includes(query) ||
-        q.keyTerms.some(t => t.toLowerCase().includes(query));
-
-      return matchesCategory && matchesDifficulty && matchesMastery && matchesSearch;
-    });
-  }, [selectedCategory, selectedDifficulty, onlyUnmastered, masteredIds, searchQuery]);
-
-  // Handle Flashcard Bounds
-  useEffect(() => {
-    setFlashcardIndex(0);
-    setIsFlipped(false);
-  }, [selectedCategory, selectedDifficulty, onlyUnmastered, searchQuery]);
-
-  const toggleMastery = (id: string, e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    setMasteredIds(prev => 
-      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
-    );
-  };
-
-  const copyCode = (code: string, id: string) => {
-    navigator.clipboard.writeText(code);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
-
   // Start Mock Interview Simulator
   const startSimulation = () => {
-    // Select 3 random real-time production scenario challenges or advanced questions
-    const scenarioPool = INTERVIEW_QUESTIONS.filter(q => q.categorySlug === 'realtime-scenarios' || q.difficulty === 'Staff/Lead' || q.difficulty === 'Advanced');
-    const shuffled = [...scenarioPool].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 3);
-    
+    const selected = getRandomQuestions();
     setSimulatorQuestions(selected);
     setSimRound(0);
     setSimAnswer('');
@@ -274,6 +241,48 @@ export const InterviewPrepPage: React.FC = () => {
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
+
+  const toggleMastery = (id: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setMasteredIds(prev =>
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+  const copyCode = (code: string, id: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const filteredQuestions = useMemo<InterviewQuestion[]>(() => {
+    return INTERVIEW_QUESTIONS.filter(q => {
+      // Category filter
+      if (selectedCategory !== 'all' && q.categorySlug !== selectedCategory) {
+        return false;
+      }
+      // Difficulty filter
+      if (selectedDifficulty !== 'all' && q.difficulty !== selectedDifficulty) {
+        return false;
+      }
+      // Unmastered filter
+      if (onlyUnmastered && masteredIds.includes(q.id)) {
+        return false;
+      }
+      // Search query
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        const matchQuestion = q.question.toLowerCase().includes(query);
+        const matchShort = q.shortAnswer.toLowerCase().includes(query);
+        const matchTerms = q.keyTerms.some(term => term.toLowerCase().includes(query));
+        const matchCategory = q.category.toLowerCase().includes(query);
+        const matchCode = q.codeSnippet?.code?.toLowerCase().includes(query) || false;
+        const matchTakeaway = q.detailedAnswer.toLowerCase().includes(query);
+        return matchQuestion || matchShort || matchTerms || matchCategory || matchCode || matchTakeaway;
+      }
+      return true;
+    });
+  }, [selectedCategory, selectedDifficulty, onlyUnmastered, masteredIds, searchQuery]);
 
   return (
     <div className="interview-prep-page" style={{ paddingBottom: '6rem' }}>
@@ -606,7 +615,7 @@ export const InterviewPrepPage: React.FC = () => {
             {/* SIMULATOR MODE */}
             {mode === 'simulator' && (
               <div>
-                {!simulatorActive || simulationFinished ? (
+                {!simulatorActive || simulationFinished || simulatorQuestions.length === 0 || !simulatorQuestions[simRound] ? (
                   /* Simulation Summary Scorecard */
                   <div style={{
                     background: 'var(--bg-primary)',
@@ -678,11 +687,11 @@ export const InterviewPrepPage: React.FC = () => {
                           fontWeight: 700,
                           padding: '0.15rem 0.5rem',
                           borderRadius: 'var(--radius-xs)',
-                          background: getDifficultyBadgeColor(simulatorQuestions[simRound].difficulty).bg,
-                          color: getDifficultyBadgeColor(simulatorQuestions[simRound].difficulty).text,
-                          border: `1px solid ${getDifficultyBadgeColor(simulatorQuestions[simRound].difficulty).border}`
+                          background: getDifficultyBadgeColor(simulatorQuestions[simRound]?.difficulty || 'Staff/Lead').bg,
+                          color: getDifficultyBadgeColor(simulatorQuestions[simRound]?.difficulty || 'Staff/Lead').text,
+                          border: `1px solid ${getDifficultyBadgeColor(simulatorQuestions[simRound]?.difficulty || 'Staff/Lead').border}`
                         }}>
-                          {simulatorQuestions[simRound].difficulty}
+                          {simulatorQuestions[simRound]?.difficulty || 'Staff/Lead'}
                         </span>
                       </div>
 
@@ -700,10 +709,10 @@ export const InterviewPrepPage: React.FC = () => {
                       borderRadius: 'var(--radius-sm)'
                     }}>
                       <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-                        {simulatorQuestions[simRound].category}
+                        {simulatorQuestions[simRound]?.category || '⚡ Real-Time Scenarios'}
                       </div>
                       <h3 style={{ fontSize: '1.25rem', fontWeight: 800, lineHeight: 1.4, color: 'var(--text-primary)' }}>
-                        {simulatorQuestions[simRound].question}
+                        {simulatorQuestions[simRound]?.question || 'Loading scenario...'}
                       </h3>
                     </div>
 
@@ -838,7 +847,7 @@ export const InterviewPrepPage: React.FC = () => {
                             📖 Golden Architectural Answer:
                           </div>
                           <div style={{ fontSize: '0.8rem', lineHeight: '1.6', color: 'var(--text-secondary)', whiteSpace: 'pre-line' }}>
-                            {simulatorQuestions[simRound].detailedAnswer}
+                            {simulatorQuestions[simRound]?.detailedAnswer || ''}
                           </div>
                         </div>
                       </div>
