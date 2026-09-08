@@ -4,6 +4,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { SearchModal } from './components/common/SearchModal';
+import { LearningChatbot } from './components/chat/LearningChatbot';
 
 // Core Pages
 import { HomePage } from './pages/HomePage';
@@ -92,6 +93,7 @@ export const App: React.FC = () => {
           <Footer />
         </div>
         <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+        <LearningChatbot />
       </BrowserRouter>
     </ThemeProvider>
   );
