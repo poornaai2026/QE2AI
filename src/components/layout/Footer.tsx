@@ -86,12 +86,41 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="footer-bottom">
-          <div>
-            © {new Date().getFullYear()} QE2AI • Built for Quality Engineers transitioning to AI Engineering.
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+            <span>© {new Date().getFullYear()} QE2AI • Built for Quality Engineers transitioning to AI Engineering.</span>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              fontSize: '0.72rem',
+              fontWeight: 600,
+              padding: '0.15rem 0.5rem',
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: '9999px',
+              color: 'var(--text-secondary)'
+            }}>
+              <span style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                background: '#10b981',
+                boxShadow: '0 0 8px #10b981',
+                display: 'inline-block'
+              }} />
+              Live Vercel Analytics Active
+            </span>
           </div>
-          <div style={{ display: 'flex', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
             <span>Clean Monochrome Studio</span>
-            <span>Open Source on GitHub</span>
+            <a 
+              href="https://github.com/poornaai2026/QE2AI" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}
+            >
+              Open Source on GitHub
+            </a>
           </div>
         </div>
       </div>

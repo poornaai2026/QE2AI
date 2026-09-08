@@ -5,6 +5,7 @@ import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { SearchModal } from './components/common/SearchModal';
 import { LearningChatbot } from './components/chat/LearningChatbot';
+import { Analytics } from '@vercel/analytics/react';
 
 // Core Pages
 import { HomePage } from './pages/HomePage';
@@ -96,6 +97,7 @@ export const App: React.FC = () => {
         </div>
         <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
         <LearningChatbot />
+        <Analytics />
       </BrowserRouter>
     </ThemeProvider>
   );
