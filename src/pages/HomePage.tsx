@@ -10,6 +10,9 @@ import {
 } from 'lucide-react';
 import { QE2AI_TRACKS, AUTHOR_JOURNEY_STORY } from '../content/qe2aiBlueprintData';
 import { GithubIcon } from '../components/common/Icons';
+import { Hero3DNeuralCore } from '../components/3d/Hero3DNeuralCore';
+import { Tilt3DCard } from '../components/3d/Tilt3DCard';
+import { Isometric3DGateway } from '../components/3d/Isometric3DGateway';
 
 export const HomePage: React.FC = () => {
   const [activeArchIndex, setActiveArchIndex] = useState(0);
@@ -82,13 +85,16 @@ export const HomePage: React.FC = () => {
               fontSize: 'var(--text-base)',
               color: 'var(--text-secondary)',
               lineHeight: 1.7,
-              marginBottom: '2.25rem',
+              marginBottom: '1.5rem',
               maxWidth: '720px',
               marginLeft: 'auto',
               marginRight: 'auto'
             }}>
               You're already an engineer. You already understand automation, APIs, debugging, CI/CD and software quality. You don't need to start your engineering journey from scratch to learn AI. <strong>QE2AI</strong> helps you build on your existing QE skills and transition into AI engineering step by step.
             </p>
+
+            {/* Interactive 3D Neural Core & Orbital Tech Nodes */}
+            <Hero3DNeuralCore />
 
             {/* CTAs */}
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '3rem' }}>
@@ -165,7 +171,7 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. THE THREE CORE PILLARS */}
+      {/* 2. THE THREE CORE PILLARS WITH 3D TILT */}
       <section className="section-padding" style={{ borderBottom: '1px solid var(--border-subtle)', background: 'var(--bg-secondary)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
@@ -178,92 +184,112 @@ export const HomePage: React.FC = () => {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
             {/* Pillar 1: Learn */}
-            <div className="card">
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-                <div style={{
-                  width: '2.5rem',
-                  height: '2.5rem',
-                  borderRadius: 'var(--radius-xs)',
-                  background: 'var(--bg-tertiary)',
-                  border: '1px solid var(--border-default)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--text-primary)'
-                }}>
-                  <BookOpen size={18} />
+            <Tilt3DCard>
+              <div className="card" style={{ height: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                  <div style={{
+                    width: '2.5rem',
+                    height: '2.5rem',
+                    borderRadius: 'var(--radius-xs)',
+                    background: 'var(--bg-tertiary)',
+                    border: '1px solid var(--border-default)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--text-primary)'
+                  }}>
+                    <BookOpen size={18} />
+                  </div>
+                  <span className="badge badge-outline">Pillar 01</span>
                 </div>
-                <span className="badge badge-outline">Pillar 01</span>
+                <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                  Learn
+                </h3>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                  AI concepts explained from a QE perspective. Break through the math fog to master LLMs, embeddings, RAG, prompt engineering, and Model Context Protocol.
+                </p>
+                <Link to="/tracks" style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                  Explore 10 Learning Tracks <ArrowRight size={12} />
+                </Link>
               </div>
-              <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
-                Learn
-              </h3>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-                AI concepts explained from a QE perspective. Break through the math fog to master LLMs, embeddings, RAG, prompt engineering, and Model Context Protocol.
-              </p>
-              <Link to="/tracks" style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-                Explore 10 Learning Tracks <ArrowRight size={12} />
-              </Link>
-            </div>
+            </Tilt3DCard>
 
             {/* Pillar 2: Build */}
-            <div className="card">
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-                <div style={{
-                  width: '2.5rem',
-                  height: '2.5rem',
-                  borderRadius: 'var(--radius-xs)',
-                  background: 'var(--bg-tertiary)',
-                  border: '1px solid var(--border-default)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--text-primary)'
-                }}>
-                  <Code2 size={18} />
+            <Tilt3DCard>
+              <div className="card" style={{ height: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                  <div style={{
+                    width: '2.5rem',
+                    height: '2.5rem',
+                    borderRadius: 'var(--radius-xs)',
+                    background: 'var(--bg-tertiary)',
+                    border: '1px solid var(--border-default)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--text-primary)'
+                  }}>
+                    <Code2 size={18} />
+                  </div>
+                  <span className="badge badge-outline">Pillar 02</span>
                 </div>
-                <span className="badge badge-outline">Pillar 02</span>
+                <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                  Build
+                </h3>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                  Mini-projects that turn concepts into practical experience. Every major concept has a dedicated, runnable GitHub repository with setup guides and tests.
+                </p>
+                <Link to="/projects" style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                  View 10 Hands-on Projects <ArrowRight size={12} />
+                </Link>
               </div>
-              <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
-                Build
-              </h3>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-                Mini-projects that turn concepts into practical experience. Every major concept has a dedicated, runnable GitHub repository with setup guides and tests.
-              </p>
-              <Link to="/projects" style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-                View 10 Hands-on Projects <ArrowRight size={12} />
-              </Link>
-            </div>
+            </Tilt3DCard>
 
             {/* Pillar 3: Deploy */}
-            <div className="card">
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-                <div style={{
-                  width: '2.5rem',
-                  height: '2.5rem',
-                  borderRadius: 'var(--radius-xs)',
-                  background: 'var(--bg-tertiary)',
-                  border: '1px solid var(--border-default)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--text-primary)'
-                }}>
-                  <Cpu size={18} />
+            <Tilt3DCard>
+              <div className="card" style={{ height: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                  <div style={{
+                    width: '2.5rem',
+                    height: '2.5rem',
+                    borderRadius: 'var(--radius-xs)',
+                    background: 'var(--bg-tertiary)',
+                    border: '1px solid var(--border-default)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--text-primary)'
+                  }}>
+                    <Cpu size={18} />
+                  </div>
+                  <span className="badge badge-outline">Pillar 03</span>
                 </div>
-                <span className="badge badge-outline">Pillar 03</span>
+                <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                  Deploy
+                </h3>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                  Learn how to take AI projects from localhost to production. Containerize with Docker, orchestrate CI/CD in GitHub Actions, and deploy to serverless Cloud Run.
+                </p>
+                <Link to="/tracks#09-deployment" style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                  Explore Deployment Track <ArrowRight size={12} />
+                </Link>
               </div>
-              <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
-                Deploy
-              </h3>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-                Learn how to take AI projects from localhost to production. Containerize with Docker, orchestrate CI/CD in GitHub Actions, and deploy to serverless Cloud Run.
-              </p>
-              <Link to="/tracks#09-deployment" style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-                Explore Deployment Track <ArrowRight size={12} />
-              </Link>
-            </div>
+            </Tilt3DCard>
           </div>
+        </div>
+      </section>
+
+      {/* 3D ISOMETRIC TRANSFORMATION GATEWAY */}
+      <section className="section-padding" style={{ borderBottom: '1px solid var(--border-subtle)', background: 'var(--bg-primary)' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+            <span className="badge badge-outline" style={{ marginBottom: '0.5rem' }}>3D Architecture Pipeline</span>
+            <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 800 }}>The 3D Engineering Transition Stack</h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', marginTop: '0.35rem' }}>
+              How test automation assets evolve into autonomous, evaluated AI production systems.
+            </p>
+          </div>
+          <Isometric3DGateway />
         </div>
       </section>
 
