@@ -20,13 +20,14 @@ QE2AI/
 │   ├── 07-ai-powered-qe-eval-agent/        # Track 07: AI QE Agent & Ragas Evaluation Pipeline
 │   ├── 08-playwright-ai-workflow/          # Track 08: Playwright + AI Self-Healing Automation
 │   ├── 09-deploy-ai-qe-app/                # Track 09: Containerized Docker + GitHub Actions CI/CD
-│   └── 10-production-ai-qe-platform/       # Track 10: Production-Ready AI QE Platform (Guardrails + Observability)
+│   ├── 10-production-ai-qe-platform/       # Track 10: Production-Ready AI QE Platform (Guardrails + Observability)
+│   └── 11-langchain-deep-agents/           # Track 11: LangChain Deep Agents (Hierarchical Reasoning & QA)
 └── README.md                               # Repository Overview
 ```
 
 ---
 
-## 🚀 10 Hands-on Projects Overview
+## 🚀 11 Hands-on Projects Overview
 
 | # | Project | Track | Difficulty | Description |
 |---|---|---|---|---|
@@ -40,6 +41,7 @@ QE2AI/
 | **08** | [08-playwright-ai-workflow](file:///projects/08-playwright-ai-workflow) | Automation | Intermediate | Playwright test suite with dynamic AI self-healing locators |
 | **09** | [09-deploy-ai-qe-app](file:///projects/09-deploy-ai-qe-app) | Deployment | Intermediate | Multi-stage Docker container deployed to Google Cloud Run via GitHub Actions |
 | **10** | [10-production-ai-qe-platform](file:///projects/10-production-ai-qe-platform) | Production AI | Advanced | Redis semantic caching, LangSmith tracing, and safety guardrails gateway |
+| **11** | [11-langchain-deep-agents](file:///projects/11-langchain-deep-agents) | Deep Reasoning | Advanced | Hierarchical multi-agent reasoning architecture with reflection loops & QA |
 
 ---
 

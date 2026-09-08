@@ -718,9 +718,9 @@ export const QE2AI_PROJECTS: MiniProjectDetail[] = [
     ],
     githubUrl: "https://github.com/poornaai2026/QE2AI/tree/main/projects/10-production-ai-qe-platform",
     nextStep: {
-      title: "QE → AI Career & Community",
-      link: "/about",
-      description: "Explore the author journey and share your feedback on the QE2AI platform."
+      title: "Track 11: Agentic Reasoning",
+      link: "/tracks#11-agentic-reasoning",
+      description: "Explore autonomous deep reasoning architectures with LangGraph."
     },
     features: [
       "Redis semantic caching slashing API latency from 1.8s to 12ms for repeat queries",
@@ -729,6 +729,41 @@ export const QE2AI_PROJECTS: MiniProjectDetail[] = [
       "Configurable input guardrails detecting prompt injection and PII leakage"
     ],
     coreTech: ["Python 3.11", "Redis", "LangSmith", "FastAPI", "Pydantic", "Docker"]
+  },
+  {
+    slug: "langchain-deep-agents",
+    number: "11",
+    title: "LangChain Deep Agents: Autonomous Reasoning & QA",
+    difficulty: "Advanced",
+    tagline: "Hierarchical multi-agent reasoning architecture with LangGraph, plan-and-solve reflection loops, and automated root-cause diagnosis",
+    trackName: "05 — Agentic AI & Deep Reasoning",
+    prerequisites: ["Python 3.11", "LangChain & LangGraph", "OpenAI / Gemini API keys"],
+    whatYouLearn: [
+      "Hierarchical multi-agent orchestration (Supervisor, Planner, Code Worker, Verification Judge)",
+      "Implementing cyclic 'Plan-and-Solve' reflection loops with state persistence",
+      "Dynamic tool calling for AST code parsing, API probing, and DOM analysis",
+      "Automated root-cause analysis and self-correcting test suite generation"
+    ],
+    architectureFlow: "Failure Trace / Complex PRD ──▶ Planner Agent ──▶ Task Decomposition ──▶ Tool Execution (DOM/API) ──▶ Reflection & Verifier Judge ──▶ Passed: Auto-Generated Test Suite",
+    setupSteps: [
+      { step: "1. Clone Repository", command: "git clone https://github.com/poornaai2026/QE2AI.git", description: "Clone the mono-repo." },
+      { step: "2. Navigate to Project", command: "cd QE2AI/projects/11-langchain-deep-agents", description: "Enter project folder." },
+      { step: "3. Install Dependencies", command: "pip install -r requirements.txt", description: "Installs langchain, langgraph, pydantic, and pytest." },
+      { step: "4. Run Deep Agent", command: "python agent.py", description: "Runs autonomous multi-step deep reasoning and test synthesis." }
+    ],
+    githubUrl: "https://github.com/poornaai2026/QE2AI/tree/main/projects/11-langchain-deep-agents",
+    nextStep: {
+      title: "Explore Curated Resources",
+      link: "/resources",
+      description: "Watch the LangGraph Deep Agents masterclass video."
+    },
+    features: [
+      "Hierarchical supervisor-worker graph with LangGraph `StateGraph`",
+      "Dynamic memory & state checkpoints for multi-step reasoning rollbacks",
+      "Automated test synthesis with strict Pydantic output validation",
+      "Includes complete tutorial guide and attached LangChain masterclass video"
+    ],
+    coreTech: ["Python 3.11", "LangChain", "LangGraph", "OpenAI / Gemini", "Pydantic V2", "Pytest"]
   }
 ];
 
@@ -768,8 +803,8 @@ export const FREE_LLM_PROVIDERS: FreeLLMProvider[] = [
     model: "Free Model Pool (DeepSeek R1, Llama 3.3, Mistral)",
     freeTierStatus: "Active (Aggregator)",
     apiAvailability: "Yes (OpenAI-compatible API)",
-    limitations: "20 RPM, free models labeled with `:free` suffix",
-    bestUseCase: "Testing multi-model routing, reasoning models (DeepSeek R1 free tier)",
+    limitations: "Varies by selected free endpoint",
+    bestUseCase: "Fallback routing and comparing model evaluation judges",
     lastVerified: "March 2025",
     docsUrl: "https://openrouter.ai/"
   },
@@ -795,8 +830,8 @@ export const FREE_LLM_PROVIDERS: FreeLLMProvider[] = [
   },
   {
     provider: "Hugging Face Inference API",
-    model: "Thousands of Open-Source Models",
-    freeTierStatus: "Active (Serverless)",
+    model: "Thousands of Community Models",
+    freeTierStatus: "Active (Community Tier)",
     apiAvailability: "Yes (HTTP API & Python)",
     limitations: "Rate limited based on shared cluster load; cold starts",
     bestUseCase: "Testing niche open-source models, tokenizers, and small classifiers",
@@ -816,6 +851,16 @@ export const FREE_LLM_PROVIDERS: FreeLLMProvider[] = [
 ];
 
 export const CURATED_YOUTUBE_RESOURCES: CuratedResourceItem[] = [
+  {
+    category: "LangChain Deep Agents",
+    title: "LangGraph Deep Agents: Hierarchical Planning, Multi-Agent Architecture & Self-Correction Masterclass",
+    type: "youtube",
+    url: "https://www.youtube.com/watch?v=hvAPnpSfSGo",
+    author: "LangChain Official / Harrison Chase & Lance Martin",
+    whyWatchOrLearn: "The definitive guide to building Deep Agents, hierarchical supervisory graphs, dynamic planning, and self-correcting multi-agent reasoning in LangGraph.",
+    difficulty: "Advanced",
+    whatYouWillLearn: "How to structure multi-agent state graphs, build cyclic reflection loops, manage short/long term agent memory, and deploy production-grade deep agents."
+  },
   {
     category: "LLM Fine-Tuning",
     title: "LLM Fine Tuning Crash Course: 1 Hour End-to-End Guide",

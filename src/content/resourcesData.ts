@@ -4,6 +4,17 @@ export const curatedResources: (ExternalResource & { category: string; tags: str
   // 1. YouTube Tutorials & Deep Dives
   {
     type: 'youtube',
+    category: 'LangChain Deep Agents',
+    title: 'LangGraph Deep Agents: Hierarchical Planning, Multi-Agent Architecture & Self-Correction Masterclass',
+    authorOrSource: 'LangChain Official / Harrison Chase & Lance Martin',
+    url: 'https://www.youtube.com/watch?v=hvAPnpSfSGo',
+    description: 'The definitive masterclass on building Deep Multi-Agent reasoning systems with LangGraph. Covers hierarchical supervisors, recursive task decomposition, dynamic tool use, and cyclic reflection loops.',
+    durationOrLevel: '1 hr 15 min video • Advanced',
+    isFree: true,
+    tags: ['LangChain', 'LangGraph', 'Deep Agents', 'Multi-Agent', 'Reasoning']
+  },
+  {
+    type: 'youtube',
     category: 'AI Fundamentals',
     title: "Let's build GPT: from scratch, in code, spelled out",
     authorOrSource: 'Andrej Karpathy',
