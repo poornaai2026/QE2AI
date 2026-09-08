@@ -76,9 +76,11 @@ export const App: React.FC = () => {
               <Route path="/ai-qe" element={<TestAIPage />} />
               <Route path="/test-ai" element={<TestAIPage />} />
 
-              {/* Interview Preparation Suite */}
+              {/* Interview Preparation Suite & Simulator */}
               <Route path="/interview-prep" element={<InterviewPrepPage />} />
               <Route path="/interview" element={<InterviewPrepPage />} />
+              <Route path="/simulator" element={<InterviewPrepPage />} />
+              <Route path="/mock-interview" element={<InterviewPrepPage />} />
               
               {/* Resources & Tracker */}
               <Route path="/resources" element={<ResourcesPage />} />

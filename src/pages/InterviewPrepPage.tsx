@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { 
   Search, 
   Sparkles, 
@@ -38,22 +38,57 @@ interface RoundEvaluation {
 
 export const InterviewPrepPage: React.FC = () => {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const initialQuery = searchParams.get('q') || '';
   const initialId = searchParams.get('id') || null;
+
+  const isDirectSimulatorRoute = location.pathname === '/simulator' || location.pathname === '/mock-interview' || searchParams.get('mode') === 'simulator';
 
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
-  const [mode, setMode] = useState<'study' | 'flashcard' | 'simulator'>('study');
+  const [mode, setMode] = useState<'study' | 'flashcard' | 'simulator'>(isDirectSimulatorRoute ? 'simulator' : 'study');
   const [expandedId, setExpandedId] = useState<string | null>(initialId);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [cheatSheetOpen, setCheatSheetOpen] = useState<boolean>(false);
 
-  // Sync when searchParams change
+  // Flashcard Mode state
+  const [flashcardIndex, setFlashcardIndex] = useState<number>(0);
+  const [isFlipped, setIsFlipped] = useState<boolean>(false);
+
+  // Simulator Mode state
+  const [simulatorActive, setSimulatorActive] = useState<boolean>(isDirectSimulatorRoute);
+  const [simulatorQuestions, setSimulatorQuestions] = useState<InterviewQuestion[]>([]);
+  const [simRound, setSimRound] = useState<number>(0);
+  const [simAnswer, setSimAnswer] = useState<string>('');
+  const [simTimer, setSimTimer] = useState<number>(600); // 10 minutes
+  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(isDirectSimulatorRoute);
+  const [roundEvaluations, setRoundEvaluations] = useState<RoundEvaluation[]>([]);
+  const [currentEval, setCurrentEval] = useState<RoundEvaluation | null>(null);
+  const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
+  const [simulationFinished, setSimulationFinished] = useState<boolean>(false);
+
+  // Sync when searchParams or location change
   useEffect(() => {
     const q = searchParams.get('q');
     const id = searchParams.get('id');
+    const m = searchParams.get('mode');
+    
     if (q !== null) setSearchQuery(q);
+    
+    if (location.pathname === '/simulator' || location.pathname === '/mock-interview' || m === 'simulator') {
+      setMode('simulator');
+      startSimulation();
+      setTimeout(() => {
+        const el = document.getElementById('simulator-arena');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    } else if (m === 'flashcard') {
+      setMode('flashcard');
+    } else if (m === 'study') {
+      setMode('study');
+    }
+
     if (id !== null) {
       setExpandedId(id);
       setTimeout(() => {
@@ -61,23 +96,7 @@ export const InterviewPrepPage: React.FC = () => {
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100);
     }
-  }, [searchParams]);
-  
-  // Flashcard Mode state
-  const [flashcardIndex, setFlashcardIndex] = useState<number>(0);
-  const [isFlipped, setIsFlipped] = useState<boolean>(false);
-
-  // Simulator Mode state
-  const [simulatorActive, setSimulatorActive] = useState<boolean>(false);
-  const [simulatorQuestions, setSimulatorQuestions] = useState<InterviewQuestion[]>([]);
-  const [simRound, setSimRound] = useState<number>(0);
-  const [simAnswer, setSimAnswer] = useState<string>('');
-  const [simTimer, setSimTimer] = useState<number>(600); // 10 minutes
-  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
-  const [roundEvaluations, setRoundEvaluations] = useState<RoundEvaluation[]>([]);
-  const [currentEval, setCurrentEval] = useState<RoundEvaluation | null>(null);
-  const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
-  const [simulationFinished, setSimulationFinished] = useState<boolean>(false);
+  }, [searchParams, location.pathname]);
 
   // Mastery State (persisted to localStorage)
   const [masteredIds, setMasteredIds] = useState<string[]>(() => {
@@ -307,6 +326,10 @@ export const InterviewPrepPage: React.FC = () => {
                 onClick={() => {
                   setMode('simulator');
                   startSimulation();
+                  setTimeout(() => {
+                    const el = document.getElementById('simulator-arena');
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 50);
                 }}
                 className="btn btn-secondary"
                 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.65rem 1.25rem', borderRadius: 'var(--radius-sm)' }}
@@ -576,7 +599,7 @@ export const InterviewPrepPage: React.FC = () => {
       </section>
 
       {/* 3. MAIN CONTENT: ACCORDION, FLASHCARD OR SIMULATOR */}
-      <section style={{ padding: '1.5rem 0' }}>
+      <section id="simulator-arena" style={{ padding: '1.5rem 0' }}>
         <div className="container">
           <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
 

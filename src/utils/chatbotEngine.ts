@@ -268,14 +268,20 @@ export const generateBotResponse = (userQuery: string): ChatMessage => {
     };
   }
 
-  // 7. Interview Prep & Career
-  if (query.includes('interview') || query.includes('job') || query.includes('career') || query.includes('question') || query.includes('prep') || query.includes('salary') || query.includes('resume')) {
+  // 7. Interview Prep & Career & Simulator
+  if (query.includes('mock') || query.includes('simulator') || query.includes('interview') || query.includes('job') || query.includes('career') || query.includes('question') || query.includes('prep') || query.includes('salary') || query.includes('resume')) {
     return {
       id: `bot-${Date.now()}`,
       sender: 'bot',
-      text: "🎓 **Technical Interview Preparation Module**\n\nThe QE2AI interview suite contains **55 curated questions and real-time scenarios** with short answers, in-depth architectural deep-dives, code snippets, and an interactive **Mastery Tracker** & **Flashcard Mode**.",
+      text: "🎓 **Technical Interview Preparation & Mock Simulator**\n\nThe QE2AI interview suite contains **55 curated questions and 15 real-time scenarios** with short answers, in-depth architectural deep-dives, code snippets, an interactive **10-Minute AI Mock Interview Simulator**, and a **Downloadable Architecture Cheat Sheet**.",
       timestamp: now,
       links: [
+        {
+          title: '🎯 Launch AI Mock Interview Simulator',
+          url: '/interview-prep?mode=simulator',
+          category: 'interview',
+          description: '10-minute timed session with AI rubric evaluation and feedback.'
+        },
         {
           title: '🎓 Open Interview Prep Suite (55 Questions)',
           url: '/interview-prep',
@@ -287,18 +293,12 @@ export const generateBotResponse = (userQuery: string): ChatMessage => {
           url: '/interview-prep?category=realtime-scenarios',
           category: 'interview',
           description: 'The highest-weight questions in Staff / Lead AI interviews.'
-        },
-        {
-          title: '📈 Track Your Learning & Mastery Progress',
-          url: '/tracker',
-          category: 'resource',
-          description: 'Check off roadmap milestones and track your skill readiness.'
         }
       ],
       suggestions: [
-        'Practice in Flashcard Mode',
-        'Show LangGraph interview questions',
-        'Show Ragas evaluation questions'
+        'Launch Mock Interview Simulator',
+        'Show 15 Real-Time Scenarios',
+        'Download Architecture Cheat Sheet'
       ]
     };
   }
