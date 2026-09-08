@@ -795,7 +795,28 @@ In LLM systems, prompts have high multi-dimensional coupling. Fixing behavior fo
    - LLMs have natural stochastic variance ($p$-value $< 0.05$).
    - A regression gate fails only if the drop in mean score is statistically significant, preventing false CI blocks on random variance.
 4. **Automated PR Scorecard**: Annotates the GitHub PR with a side-by-side delta table showing which specific categories degraded.`,
-    keyTerms: ['Prompt Regression', 'Golden Dataset', 'Statistical Significance', 'Paired t-test', 'CI/CD Gate', 'DeepEval']
+    keyTerms: ['Prompt Regression', 'Golden Dataset', 'Statistical Significance', 'Paired t-test', 'CI/CD Gate', 'DeepEval'],
+    codeSnippet: {
+      language: 'python',
+      caption: 'Statistical Paired t-test Evaluation Gate in Pytest',
+      code: `import pytest
+from scipy import stats
+from deepeval.metrics import FaithfulnessMetric
+
+def test_prompt_regression_eval_gate(golden_dataset, baseline_llm, candidate_llm):
+    metric = FaithfulnessMetric(threshold=0.85)
+    
+    baseline_scores = [metric.measure(baseline_llm(q), c) for q, c in golden_dataset]
+    candidate_scores = [metric.measure(candidate_llm(q), c) for q, c in golden_dataset]
+    
+    # Paired t-test: fail only if degradation is statistically significant (p < 0.05)
+    t_stat, p_val = stats.ttest_rel(candidate_scores, baseline_scores)
+    mean_delta = sum(candidate_scores)/len(candidate_scores) - sum(baseline_scores)/len(baseline_scores)
+    
+    assert not (mean_delta < -0.02 and p_val < 0.05), (
+        f"Statistically significant quality drop: delta={mean_delta:.3f}, p_value={p_val:.4f}"
+    )`
+    }
   },
   {
     id: 'scen-02',
@@ -814,7 +835,32 @@ In LLM systems, prompts have high multi-dimensional coupling. Fixing behavior fo
 1. **Metadata Partitioning**: Add mandatory metadata filter on every retriever query: \`retriever.invoke(query, filter={"version": "v2.0", "status": "active"})\`.
 2. **Immutable Collection Swaps (Blue/Green Vector Indexing)**: Ingest all v2 docs into a new collection \`docs_v2_2025\`, test recall, and atomically swap the pointer alias.
 3. **Strict Grounding Prompt**: Add system prompt rule: *"Only cite endpoints explicitly listed in the provided Context. Deprecate any unlisted endpoints from your general knowledge."*`,
-    keyTerms: ['Vector Drift', 'Metadata Filtering', 'Blue/Green Indexing', 'Orphaned Chunks', 'Parametric Memory']
+    keyTerms: ['Vector Drift', 'Metadata Filtering', 'Blue/Green Indexing', 'Orphaned Chunks', 'Parametric Memory'],
+    codeSnippet: {
+      language: 'python',
+      caption: 'Metadata-Filtered Retriever with Blue/Green Index Swap',
+      code: `import chromadb
+from langchain_chroma import Chroma
+from langchain_openai import OpenAIEmbeddings
+
+client = chromadb.PersistentClient(path="./chroma_db")
+
+# Atomic Blue/Green collection swap
+active_collection_name = "api_docs_v2_2026"
+vectorstore = Chroma(
+    client=client,
+    collection_name=active_collection_name,
+    embedding_function=OpenAIEmbeddings()
+)
+
+# Mandatory metadata filter eliminates deprecated chunks
+retriever = vectorstore.as_retriever(
+    search_kwargs={
+        "k": 5,
+        "filter": {"$and": [{"doc_version": "v2.0"}, {"status": "active"}]}
+    }
+)`
+    }
   },
   {
     id: 'scen-03',
@@ -834,7 +880,31 @@ When UI elements re-render dynamically with changing random IDs (e.g. \`#modal-u
 3. **Token & Dollar Budget Circuit Breaker**:
    - Maintain \`cumulative_cost\` in the \`AgentState\`.
    - Before invoking LLM: \`if state["cumulative_cost"] > 2.00: return END\`.`,
-    keyTerms: ['Infinite Loops', 'Recursion Limit', 'Action Fingerprinting', 'Circuit Breaker', 'Token Budget']
+    keyTerms: ['Infinite Loops', 'Recursion Limit', 'Action Fingerprinting', 'Circuit Breaker', 'Token Budget'],
+    codeSnippet: {
+      language: 'python',
+      caption: 'LangGraph Action Loop Circuit Breaker & Budget Guard',
+      code: `import hashlib
+from typing import TypedDict, List
+from langgraph.graph import StateGraph, END
+
+class AgentState(TypedDict):
+    actions_history: List[str]
+    cumulative_cost: float
+
+def should_continue(state: AgentState) -> str:
+    # 1. Dollar budget circuit breaker ($2.00 cap)
+    if state["cumulative_cost"] >= 2.00:
+        return "escalation_node"
+    
+    # 2. Sliding window action fingerprinting
+    recent = state["actions_history"][-4:]
+    if len(recent) >= 4 and len(set(recent)) == 1:
+        # Agent executed identical semantic action 4 times consecutively
+        return "reflection_node"
+    
+    return "execute_tool_node"`
+    }
   },
   {
     id: 'scen-04',
@@ -855,7 +925,32 @@ Running 20 parallel Pytest / Playwright workers sending 5,000-token prompts simu
    - Prevents the "Thundering Herd" problem where all 20 workers retry at the exact same second.
 3. **Multi-Provider Fallback Router (LiteLLM / Custom Middleware)**:
    - If OpenAI returns 429/503 -> Fall back instantly to Google Gemini 1.5 Flash or Groq Llama 3.3 without failing the test run.`,
-    keyTerms: ['429 Rate Limit', 'Token Bucket', 'Exponential Backoff', 'Full Jitter', 'Provider Fallback', 'LiteLLM']
+    keyTerms: ['429 Rate Limit', 'Token Bucket', 'Exponential Backoff', 'Full Jitter', 'Provider Fallback', 'LiteLLM'],
+    codeSnippet: {
+      language: 'python',
+      caption: 'Full-Jitter Exponential Backoff + Multi-Provider Failover',
+      code: `import random
+import time
+from tenacity import retry, stop_after_attempt, wait_random_exponential, retry_if_exception_type
+from openai import RateLimitError, OpenAI
+import litellm
+
+# Full jitter exponential backoff decorator
+@retry(
+    wait=wait_random_exponential(multiplier=1, max=30),
+    stop=stop_after_attempt(5),
+    retry=retry_if_exception_type(RateLimitError)
+)
+def call_llm_with_failover(prompt: str) -> str:
+    models = ["gpt-4o", "gemini/gemini-1.5-flash", "groq/llama-3.3-70b-versatile"]
+    for model in models:
+        try:
+            res = litellm.completion(model=model, messages=[{"role": "user", "content": prompt}])
+            return res.choices[0].message.content
+        except RateLimitError:
+            continue
+    raise RuntimeError("All LLM providers rate-limited.")`
+    }
   },
   {
     id: 'scen-05',
