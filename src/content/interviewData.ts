@@ -15,8 +15,8 @@ export interface InterviewQuestion {
 }
 
 export const INTERVIEW_CATEGORIES = [
-  { id: 'all', name: 'All Concepts', count: 50 },
-  { id: 'realtime-scenarios', name: '⚡ Real-Time Scenarios', count: 10 },
+  { id: 'all', name: 'All Concepts', count: 55 },
+  { id: 'realtime-scenarios', name: '⚡ Real-Time Scenarios', count: 15 },
   { id: 'python-async', name: 'Python & Async Systems', count: 4 },
   { id: 'llm-fundamentals', name: 'LLM Fundamentals & Prompting', count: 4 },
   { id: 'embeddings-vectordb', name: 'Embeddings & Vector DBs', count: 4 },
@@ -975,6 +975,136 @@ Default model aliases (like \`gpt-4o\` or \`claude-3-5-sonnet\`) are continuousl
 3. **Automated Judge Health Sanity Check**:
    - Before running CI test gates, the runner executes 10 invariant control prompts with known fixed scores. If the judge model scores deviate on the control prompts, the CI runner flags **"Judge Model Drift Detected"** instead of falsely failing developer PRs.`,
     keyTerms: ['Model Snapshot Pinning', 'Vendor Drift', 'Open-Weights Judges', 'vLLM', 'Judge Calibration', 'Control Prompts']
+  },
+  {
+    id: 'scen-11',
+    category: '⚡ Real-Time Scenarios',
+    categorySlug: 'realtime-scenarios',
+    question: 'Scenario: In a distributed multi-agent QA architecture, the "Test Generator Agent" and "Security Scanner Agent" enter a state race condition where both attempt to mutate the shared test environment simultaneously, causing flaky test runs and orphaned cloud resources. How do you design concurrency control?',
+    difficulty: 'Staff/Lead',
+    shortAnswer: 'Implement distributed locking using Redis Redlock or Postgres advisory locks, enforce idempotent state mutations with unique execution IDs, and isolate sub-agent execution into ephemeral sandboxed environments (Docker/Firecracker microVMs).',
+    detailedAnswer: `**The Multi-Agent Race Condition:**
+When multiple autonomous agents execute against shared state without synchronization:
+- Agent A deletes a test user while Agent B is attempting authentication assertions.
+- Agent B spawns a mock database instance without releasing it upon early failure.
+
+**Enterprise Architecture Solution:**
+1. **Distributed Mutex / Locking (Redis Redlock)**:
+   - Before any agent mutates environment state (e.g. seeding DB, spinning up mock server), it must acquire a scoped lock with TTL: \`lock = redis.lock("env:staging:db_seed", timeout=60)\`.
+2. **Idempotency Keys**:
+   - Every agent task generation includes a deterministic hash \`task_id = sha256(run_id + action_name)\`. If a task is triggered twice, the second is ignored or returns cached output.
+3. **Ephemeral Sandbox Isolation**:
+   - Instead of sharing one staging server, each agent instance receives an ephemeral Docker container or modal sandbox destroyed on teardown (\`finally\` hook).`,
+    keyTerms: ['Distributed Locking', 'Redis Redlock', 'Idempotency Keys', 'Multi-Agent Race Conditions', 'Ephemeral Sandboxes']
+  },
+  {
+    id: 'scen-12',
+    category: '⚡ Real-Time Scenarios',
+    categorySlug: 'realtime-scenarios',
+    question: 'Scenario: During live user streaming in a production RAG application, the LLM starts streaming a fluent answer that veers into a critical medical/legal hallucination at token 45. Waiting for the full stream to complete before evaluating is too slow. How do you implement real-time streaming guardrails?',
+    difficulty: 'Advanced',
+    shortAnswer: 'Implement a sliding-window streaming token buffer with a fast speculative classifier (or smaller SLM like Gemma 2B) running parallel checks on 15-token chunks, issuing an immediate Server-Sent Event `STREAM_ABORT` and fallback message if toxicity or hallucination confidence breaches safety thresholds.',
+    detailedAnswer: `**The Challenge:**
+Post-generation evaluation (checking after 200 tokens) leaves the user exposed to harmful or legally non-compliant text for 3-5 seconds on their screen.
+
+**Streaming Guardrail Architecture:**
+1. **Sliding-Window Token Accumulator**:
+   - Server streams LLM tokens into a 20-word rolling window buffer before flushing to the client socket (introducing a imperceptible ~80ms buffer).
+2. **Speculative Async Safety Probing**:
+   - A sub-millisecond classifier (ONNX Runtime / fastEmbed) or quantized SLM (e.g. Gemma-2B / Llama-3.2-1B) scores each rolling window for safety breaches and ungrounded entities.
+3. **Hard Stream Interruption Protocol**:
+   - If confidence $< 0.40$ or forbidden claims are detected:
+     1. Disconnect upstream LLM stream immediately (\`generator.aclose()\`).
+     2. Send SSE control event: \`event: redact\` with client-side instruction to clear the last paragraph and display: *"Response paused: Unable to verify citation accuracy."*`,
+    keyTerms: ['Streaming Guardrails', 'Token Buffering', 'Speculative Evaluation', 'STREAM_ABORT', 'ONNX Runtime', 'SSE Control Events']
+  },
+  {
+    id: 'scen-13',
+    category: '⚡ Real-Time Scenarios',
+    categorySlug: 'realtime-scenarios',
+    question: 'Scenario: Your production agent relies on JSON schema tool calls to trigger Playwright test runs, but under high load, 8% of completions fail with unparseable JSON (truncated braces, markdown backtick wrappers, or missing required fields). How do you eliminate schema failures?',
+    difficulty: 'Intermediate',
+    shortAnswer: 'Enforce constrained grammar decoding (vLLM JSON mode / OpenAI Structured Outputs with `response_format={"type": "json_object"}`), validate with Pydantic via Instructor with automatic repair retry loops, and use regex pre-parsers to strip conversational markdown wraps.',
+    detailedAnswer: `**Root Cause:**
+Standard LLMs output freeform text. When generating complex nested JSON, token probability drift can lead to unclosed brackets \`{"test": "auth"\` or conversational fluff like \`Here is the JSON: \\\`\\\`\\\`json ...\\\`\\\`\\\`\`.
+
+**3-Layer Defense:**
+1. **Constrained Grammar Decoding (Engine Level)**:
+   - Use OpenAI \`response_format={"type": "json_schema", "schema": ...}\` or vLLM / Outlines context-free grammar (CFG) sampling, which mathematically forces the LLM to only sample tokens that satisfy the JSON schema.
+2. **Instructor / Pydantic Auto-Healing Retry**:
+   - Use Instructor or Pydantic validation loops with automatic retries that feed schema validation error traces back to the LLM to fix syntax errors on-the-fly.
+3. **Lenient Fallback Parser**:
+   - Run \`json_repair\` or \`dirtyjson\` to automatically close dangling braces and sanitize trailing commas before crashing.`,
+    codeSnippet: {
+      language: 'python',
+      caption: 'Instructor + Pydantic Self-Healing Schema Validation',
+      code: `import instructor
+from openai import OpenAI
+from pydantic import BaseModel
+
+client = instructor.from_openai(OpenAI())
+
+class TestPlan(BaseModel):
+    test_name: str
+    steps: list[str]
+
+# Automatically retries up to 3 times feeding validation errors back to LLM
+plan = client.chat.completions.create(
+    model="gpt-4o",
+    response_model=TestPlan,
+    max_retries=3,
+    messages=[{"role": "user", "content": "Generate auth test plan"}]
+)`
+    },
+    keyTerms: ['Constrained Decoding', 'Structured Outputs', 'Instructor', 'Pydantic Auto-Healing', 'CFG Sampling', 'json_repair']
+  },
+  {
+    id: 'scen-14',
+    category: '⚡ Real-Time Scenarios',
+    categorySlug: 'realtime-scenarios',
+    question: 'Scenario: You need to upgrade your production Vector DB from an old embedding model (`text-embedding-ada-002`, 1536-dim) to a new state-of-the-art model (`text-embedding-3-large`, 3072-dim) across 5 million records with zero application downtime and zero retrieval failure. What is your migration strategy?',
+    difficulty: 'Staff/Lead',
+    shortAnswer: 'Implement a Dual-Index Blue/Green Shadow Migration: Provision a new collection for the 3072-dim model, run background bulk re-indexing with backpressure management, shadow-read queries to both indexes to validate retrieval parity, and execute an atomic router cutover.',
+    detailedAnswer: `**Why Naive In-Place Upgrades Cause Outages:**
+Embeddings from different models exist in incompatible vector spaces. You cannot query a 1536-dim collection with a 3072-dim query vector without throwing matrix dimension mismatch errors or returning completely corrupted cosine distances.
+
+**Zero-Downtime Blue/Green Migration Protocol:**
+1. **Phase 1 (Dual Ingestion / Write Shadowing)**:
+   - Update document ingestion pipeline to generate dual embeddings: Write vector to \`collection_v1_ada\` AND \`collection_v2_large\`.
+2. **Phase 2 (Bulk Backfill with Backpressure)**:
+   - Stream historical 5M documents through an async batch worker (handling embedding API rate limits with exponential backoff) into \`collection_v2_large\`.
+3. **Phase 3 (Shadow Querying & Parity Validation)**:
+   - In production, route 5% of live queries to both indexes asynchronously.
+   - Compare Top-5 NDCG (Normalized Discounted Cumulative Gain) and Hit-Rate between v1 and v2 to ensure v2 outperforms v1.
+4. **Phase 4 (Atomic DNS / Router Cutover & Teardown)**:
+   - Flip feature flag to route 100% of user traffic to \`collection_v2_large\`.
+   - Keep v1 standby for 72 hours, then deprovision old index.`,
+    keyTerms: ['Blue/Green Migration', 'Dual-Index Writing', 'Vector Incompatibility', 'Shadow Querying', 'NDCG Parity', 'Zero-Downtime']
+  },
+  {
+    id: 'scen-15',
+    category: '⚡ Real-Time Scenarios',
+    categorySlug: 'realtime-scenarios',
+    question: 'Scenario: Your team deploys an interactive Voice AI Assistant using WebRTC and the Gemini Live API / OpenAI Realtime API. In real-world customer usage over cellular 4G/5G, users experience audio packet jitter, robotic voice artifacts, and voice interruption collisions. How do you design audio quality testing and resilience?',
+    difficulty: 'Staff/Lead',
+    shortAnswer: 'Implement WebRTC jitter buffers with automated network chaos testing (introducing simulated latency, packet loss, and jitter), tune Voice Activity Detection (VAD) energy/prefix padding thresholds to avoid false barge-in, and validate end-to-end Voice-to-Voice latency using POLQA/PESQ audio scoring benchmarks.',
+    detailedAnswer: `**Real-Time Audio Latency & Chaos Engineering:**
+Voice-to-Voice AI must sustain $< 400\\text{ms}$ total round-trip latency to feel conversational without awkward human pauses.
+
+**Resilience Architecture & Quality Testing:**
+1. **Network Chaos Simulation in CI/CD**:
+   - Use \`toxiproxy\` or \`tc\` (traffic control) in automated Playwright/WebRTC test runs to inject:
+     - 150ms packet latency.
+     - 5% random UDP packet drop.
+     - 30ms network jitter.
+2. **Voice Activity Detection (VAD) Calibration**:
+   - **Barge-in Jitter**: If background noise triggers false interruptions, increase \`prefix_padding_ms=300\` and raise silence detection threshold to 500ms before truncating AI speech.
+3. **Quantitative Audio Quality Benchmarks (PESQ / POLQA)**:
+   - Record synthesized output audio in CI and compute Perceptual Evaluation of Speech Quality (PESQ score $> 3.8 / 5.0$) against golden reference audio.
+4. **Adaptive Opacity WebRTC Jitter Buffer**:
+   - Dynamically adjust audio buffer depth (40ms - 120ms) based on real-time RTCP packet loss reports.`,
+    keyTerms: ['WebRTC', 'Gemini Live API', 'Realtime Audio', 'VAD Calibration', 'PESQ / POLQA', 'Network Chaos Testing', 'Jitter Buffer']
   }
 ];
+
 
