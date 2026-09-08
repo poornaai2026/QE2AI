@@ -55,6 +55,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/roadmap">QE → AI Roadmap</Link></li>
               <li><Link to="/tracks">10 Learning Tracks</Link></li>
               <li><Link to="/ai-qe">AI Quality Engineering</Link></li>
+              <li><Link to="/interview-prep">Interview Prep Q&A</Link></li>
               <li><Link to="/tracker">Progress Tracker</Link></li>
             </ul>
           </div>

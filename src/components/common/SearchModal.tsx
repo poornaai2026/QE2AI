@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { technicalArticles } from '../../content/articlesData';
 import { roadmapPhases } from '../../content/roadmapData';
 import { flagshipProjects } from '../../content/projectsData';
+import { INTERVIEW_QUESTIONS } from '../../content/interviewData';
+import { HelpCircle } from 'lucide-react';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -63,12 +65,20 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
       proj.techStack.some(t => t.toLowerCase().includes(normalizedQuery))
   );
 
+  const filteredInterview = INTERVIEW_QUESTIONS.filter(
+    q =>
+      q.question.toLowerCase().includes(normalizedQuery) ||
+      q.shortAnswer.toLowerCase().includes(normalizedQuery) ||
+      q.keyTerms.some(t => t.toLowerCase().includes(normalizedQuery)) ||
+      q.category.toLowerCase().includes(normalizedQuery)
+  );
+
   const handleSelect = (url: string) => {
     navigate(url);
     onClose();
   };
 
-  const totalResults = filteredArticles.length + filteredPhases.length + filteredProjects.length;
+  const totalResults = filteredArticles.length + filteredPhases.length + filteredProjects.length + filteredInterview.length;
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
@@ -166,6 +176,30 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                         <ArrowRight size={13} style={{ color: 'var(--text-muted)' }} />
                       </div>
                       <div className="search-result-desc">{proj.tagline}</div>
+                    </li>
+                  ))}
+                </div>
+              )}
+
+              {filteredInterview.length > 0 && (
+                <div style={{ marginTop: '0.75rem' }}>
+                  <div style={{ padding: '0.35rem 0.75rem', fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-primary)', textTransform: 'uppercase' }}>
+                    Interview Prep Q&A ({filteredInterview.length})
+                  </div>
+                  {filteredInterview.map(q => (
+                    <li
+                      key={q.id}
+                      className="search-result-item"
+                      onClick={() => handleSelect(`/interview-prep`)}
+                    >
+                      <div className="search-result-title">
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                          <HelpCircle size={14} style={{ color: 'var(--text-primary)' }} />
+                          {q.question}
+                        </span>
+                        <ArrowRight size={13} style={{ color: 'var(--text-muted)' }} />
+                      </div>
+                      <div className="search-result-desc">{q.shortAnswer}</div>
                     </li>
                   ))}
                 </div>

@@ -15,6 +15,7 @@ import { TestAIPage } from './pages/TestAIPage';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { ProgressTrackerPage } from './pages/ProgressTrackerPage';
 import { AboutPage } from './pages/AboutPage';
+import { InterviewPrepPage } from './pages/InterviewPrepPage';
 
 // Scroll to top on route change
 const ScrollToTop: React.FC = () => {
@@ -61,6 +62,10 @@ export const App: React.FC = () => {
               {/* AI Quality Engineering */}
               <Route path="/ai-qe" element={<TestAIPage />} />
               <Route path="/test-ai" element={<TestAIPage />} />
+
+              {/* Interview Preparation Suite */}
+              <Route path="/interview-prep" element={<InterviewPrepPage />} />
+              <Route path="/interview" element={<InterviewPrepPage />} />
               
               {/* Resources & Tracker */}
               <Route path="/resources" element={<ResourcesPage />} />

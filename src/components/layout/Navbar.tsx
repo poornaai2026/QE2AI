@@ -11,6 +11,7 @@ import {
   Sun, 
   Moon, 
   Search, 
+  HelpCircle,
   Menu, 
   X
 } from 'lucide-react';
@@ -31,6 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
     { name: 'Tracks', path: '/tracks', icon: BookOpen },
     { name: 'Projects', path: '/projects', icon: FolderGit2 },
     { name: 'AI Quality Engineering', path: '/ai-qe', icon: ShieldCheck },
+    { name: 'Interview Prep', path: '/interview-prep', icon: HelpCircle },
     { name: 'Free Resources', path: '/resources', icon: Tv },
     { name: 'Progress Tracker', path: '/tracker', icon: CheckSquare },
     { name: 'About Author', path: '/about', icon: User }
