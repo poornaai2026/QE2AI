@@ -10,7 +10,7 @@ export const Footer: React.FC = () => {
         <div className="footer-grid">
           {/* Col 1: Brand & Tagline */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem' }}>
+            <Link to="/" className="footer-brand" style={{ textDecoration: 'none' }}>
               <div style={{
                 width: '1.6rem',
                 height: '1.6rem',
@@ -21,14 +21,15 @@ export const Footer: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontWeight: 900,
-                fontSize: '0.75rem'
+                fontSize: '0.75rem',
+                transition: 'transform var(--transition-bounce)'
               }}>
                 QE
               </div>
               <span style={{ fontWeight: 800, fontSize: '1.2rem', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                 QE2AI
               </span>
-            </div>
+            </Link>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', maxWidth: '380px', marginBottom: '1.5rem', lineHeight: 1.6 }}>
               From Quality Engineering to AI Engineering. A practical, build-first learning platform for test engineers transitioning into AI systems and evaluation.
             </p>
