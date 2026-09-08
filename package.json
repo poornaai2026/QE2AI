@@ -1,7 +1,13 @@
 {
-  "name": "qa2ai",
+  "name": "qe2ai",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "author": "Poorna Chandra Rao J <poornaai2026>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/poornaai2026/QE2AI.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

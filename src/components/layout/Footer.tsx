@@ -87,7 +87,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="footer-bottom">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
-            <span>© {new Date().getFullYear()} QE2AI • Built for Quality Engineers transitioning to AI Engineering.</span>
+            <span>© {new Date().getFullYear()} QE2AI • Poorna Chandra Rao J. All rights reserved.</span>
             <span style={{
               display: 'inline-flex',
               alignItems: 'center',
