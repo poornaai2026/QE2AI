@@ -1,0 +1,15 @@
+fastmcp<4.0.0
+mcp<2.0.0
+langchain-community<0.4.0
+langchain-core
+langchain-google-genai
+langchain-openai
+langgraph
+langchain-mcp-adapters
+pytest
+pytest-asyncio
+pytest-html
+deepeval
+ragas
+datasets
+allure-pytest
