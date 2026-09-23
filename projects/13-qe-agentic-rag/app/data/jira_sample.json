@@ -1,0 +1,39 @@
+{
+  "tickets": [
+    {
+      "id": "AUTH-101",
+      "summary": "Customer Authentication & Account Security Lockout",
+      "description": "As a customer, I want to login using my registered email and password so that I can access my account dashboard securely.",
+      "acceptance_criteria": [
+        "AC1: Valid credentials should login successfully and redirect to dashboard.",
+        "AC2: Invalid password should display an error message: 'Invalid email or password'.",
+        "AC3: Empty email should display validation message: 'Email is required'.",
+        "AC4: Empty password should display validation message: 'Password is required'.",
+        "AC5: Invalid email format (missing @ or domain) should display validation message: 'Please enter a valid email address'.",
+        "AC6: Account should lock after 5 consecutive failed attempts with message: 'Account locked due to 5 failed attempts. Please contact support.'"
+      ],
+      "component": "Authentication Service",
+      "priority": "High",
+      "status": "Ready for QA",
+      "reporter": "alex.product@enterprise.io",
+      "target_url": "http://localhost:8080/login"
+    },
+    {
+      "id": "CHECKOUT-204",
+      "summary": "E-Commerce Checkout Promo Code Validation",
+      "description": "As a shopper, I want to apply promotional discount codes during checkout so that I can receive promotional discounts on eligible items.",
+      "acceptance_criteria": [
+        "AC1: Valid promo code 'SAVE20' should deduct 20% from cart subtotal and display updated total.",
+        "AC2: Expired promo code 'EXPIRED10' should display error: 'Coupon code has expired'.",
+        "AC3: Unrecognized promo code should display error: 'Invalid coupon code'.",
+        "AC4: Submitting empty coupon input should display warning: 'Please enter a coupon code'.",
+        "AC5: Applying a second coupon should replace the existing coupon or display: 'Only one promo code allowed per order'."
+      ],
+      "component": "Checkout & Payments",
+      "priority": "Medium",
+      "status": "Ready for QA",
+      "reporter": "sarah.growth@enterprise.io",
+      "target_url": "http://localhost:8080/checkout"
+    }
+  ]
+}

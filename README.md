@@ -1,4 +1,4 @@
-# Master Documentation: QE2AI
+﻿# Master Documentation: QE2AI
 
 > **From Quality Engineering to AI Engineering.**  
 > A practical, build-first learning platform and repository for Quality Engineers and SDETs transitioning into Generative AI, LLM Engineering, RAG, Agentic AI, Model Context Protocol (MCP), and AI Quality Evaluation.
@@ -10,7 +10,7 @@
 ```text
 QE2AI/
 ├── src/                                    # QE2AI Interactive Web Application (Modern Monochrome)
-├── projects/                               # 12 Hands-on Practical Projects
+├── projects/                               # 13 Hands-on Practical Projects
 │   ├── 01-fastapi-test-management/         # Track 01: FastAPI Test Management API
 │   ├── 02-llm-testcase-generator/          # Track 02: LLM-powered test-case generator
 │   ├── 03-llm-qe-assistant/                # Track 03: LLM API-based QE assistant
@@ -28,7 +28,7 @@ QE2AI/
 
 ---
 
-## 🚀 12 Hands-on Projects Overview
+## 🚀 13 Hands-on Projects Overview
 
 | # | Project | Track | Difficulty | Description |
 |---|---|---|---|---|
@@ -44,6 +44,7 @@ QE2AI/
 | **10** | [10-production-ai-qe-platform](projects/10-production-ai-qe-platform) | Production AI | Advanced | Redis semantic caching, LangSmith tracing, and safety guardrails gateway |
 | **11** | [11-langchain-deep-agents](projects/11-langchain-deep-agents) | Deep Reasoning | Advanced | Hierarchical multi-agent reasoning architecture with reflection loops & QA |
 | **12** | [12-slingshot-qe-agent](projects/12-slingshot-qe-agent) | Autonomous QE Agents | Advanced | Multi-agent API (Karate) & UI (Playwright) QE system with HITL, RCA & self-healing |
+| **13** | [13-qe-agentic-rag](projects/13-qe-agentic-rag) | Agentic RAG & Quality Gates | Advanced | Enterprise Agentic QE Platform with Hybrid RAG (BM25+RRF), LangGraph Self-Healing Loop, Golden Quality Gates & Active In-Flight Playwright Healing |
 
 ---
 
@@ -65,3 +66,4 @@ npm run build
 ## 👤 Author & Architecture
 - **Creator**: Poorna Chandra Rao J (Senior Quality Engineer & GenAI Practitioner)
 - **Design Philosophy**: Pure modern black and white / monochrome aesthetic, high contrast, zero generic AI neon gradients.
+

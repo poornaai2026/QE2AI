@@ -1,0 +1,123 @@
+{
+  "version": "1.0.0",
+  "description": "Enterprise Golden Ground-Truth Evaluation Benchmark Dataset for Ragas Quality Gates",
+  "benchmarks": [
+    {
+      "ticket_id": "AUTH-101",
+      "requirement_summary": "Customer Authentication & Account Security Lockout",
+      "ground_truth_context": [
+        {
+          "source_doc": "auth_security_policy.md",
+          "key_policy": "OWASP ASVS 4.0 Authentication Architecture: Generic error messages for credential mismatches, TLS 1.3 requirement, zero user enumeration."
+        },
+        {
+          "source_doc": "account_lockout_rules.md",
+          "key_policy": "Brute Force Defense: Exactly 5 consecutive invalid login attempts within 15 minutes trigger account lockout. Message must state 'Account locked due to 5 failed attempts. Please contact support.'"
+        },
+        {
+          "source_doc": "ui_locator_standards.md",
+          "key_policy": "Testability Contract: Automated tests must bind exclusively to data-testid selectors: input-email, input-password, button-login, alert-error, alert-lockout."
+        }
+      ],
+      "ground_truth_acceptance_criteria": [
+        "AC1: Valid credentials should login successfully and redirect to dashboard.",
+        "AC2: Invalid password should display error message: 'Invalid email or password'.",
+        "AC3: Empty email should display validation message: 'Email is required'.",
+        "AC4: Empty password should display validation message: 'Password is required'.",
+        "AC5: Invalid email format (missing @ or domain) should display validation message: 'Please enter a valid email address'.",
+        "AC6: Account should lock after 5 consecutive failed attempts with message: 'Account locked due to 5 failed attempts. Please contact support.'"
+      ],
+      "ground_truth_test_cases": [
+        {
+          "id": "TC001",
+          "title": "Valid credentials login successfully and redirect to dashboard",
+          "type": "Positive",
+          "ac_traceability": "AC1",
+          "expected_assertions": [
+            "expect(page).to_have_url('/dashboard')",
+            "expect(page.locator('[data-testid=\"user-profile\"]')).to_be_visible()"
+          ]
+        },
+        {
+          "id": "TC002",
+          "title": "Invalid password displays generic error message without user disclosure",
+          "type": "Negative",
+          "ac_traceability": "AC2",
+          "expected_assertions": [
+            "expect(page.locator('[data-testid=\"alert-error\"]')).to_contain_text('Invalid email or password')"
+          ]
+        },
+        {
+          "id": "TC003",
+          "title": "Empty email field triggers mandatory validation message",
+          "type": "Negative",
+          "ac_traceability": "AC3",
+          "expected_assertions": [
+            "expect(page.locator('[data-testid=\"alert-error\"]')).to_contain_text('Email is required')"
+          ]
+        },
+        {
+          "id": "TC004",
+          "title": "Empty password field triggers mandatory validation message",
+          "type": "Negative",
+          "ac_traceability": "AC4",
+          "expected_assertions": [
+            "expect(page.locator('[data-testid=\"alert-error\"]')).to_contain_text('Password is required')"
+          ]
+        },
+        {
+          "id": "TC005",
+          "title": "Malformed email format triggers validation message",
+          "type": "Boundary",
+          "ac_traceability": "AC5",
+          "expected_assertions": [
+            "expect(page.locator('[data-testid=\"alert-error\"]')).to_contain_text('Please enter a valid email address')"
+          ]
+        },
+        {
+          "id": "TC006",
+          "title": "Account locks after exactly 5 consecutive failed attempts",
+          "type": "Security",
+          "ac_traceability": "AC6",
+          "lockout_threshold": 5,
+          "expected_assertions": [
+            "expect(page.locator('[data-testid=\"alert-lockout\"]')).to_be_visible()",
+            "expect(page.locator('[data-testid=\"alert-lockout\"]')).to_contain_text('Account locked due to 5 failed attempts. Please contact support.')",
+            "expect(page.locator('[data-testid=\"button-login\"]')).to_be_disabled()"
+          ]
+        }
+      ],
+      "golden_ragas_targets": {
+        "min_faithfulness": 0.90,
+        "min_answer_relevance": 0.88,
+        "min_context_precision": 0.85,
+        "min_context_recall": 0.90,
+        "quality_gate_threshold": 0.85
+      }
+    },
+    {
+      "ticket_id": "CHECKOUT-204",
+      "requirement_summary": "E-Commerce Checkout Promo Code Validation",
+      "ground_truth_context": [
+        {
+          "source_doc": "checkout_pricing_rules.md",
+          "key_policy": "Discount calculations apply to cart subtotal before taxes and shipping. Valid promo SAVE20 awards 20% discount."
+        }
+      ],
+      "ground_truth_acceptance_criteria": [
+        "AC1: Valid promo code 'SAVE20' should deduct 20% from cart subtotal and display updated total.",
+        "AC2: Expired promo code 'EXPIRED10' should display error: 'Coupon code has expired'.",
+        "AC3: Unrecognized promo code should display error: 'Invalid coupon code'.",
+        "AC4: Submitting empty coupon input should display warning: 'Please enter a coupon code'.",
+        "AC5: Applying a second coupon should replace existing coupon or display: 'Only one promo code allowed per order'."
+      ],
+      "golden_ragas_targets": {
+        "min_faithfulness": 0.90,
+        "min_answer_relevance": 0.88,
+        "min_context_precision": 0.85,
+        "min_context_recall": 0.90,
+        "quality_gate_threshold": 0.85
+      }
+    }
+  ]
+}

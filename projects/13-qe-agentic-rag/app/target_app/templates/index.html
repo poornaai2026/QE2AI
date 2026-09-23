@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Portal | Authentication Service</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: rgba(22, 27, 34, 0.85);
+      --border: rgba(48, 54, 61, 0.8);
+      --accent: #58a6ff;
+      --text: #c9d1d9;
+      --text-bright: #f0f6fc;
+      --danger: #f85149;
+      --warning: #d29922;
+      --success: #3fb950;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body {
+      background: radial-gradient(circle at 50% 20%, #161b22, #090d16);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+    .brand {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .brand h1 { font-size: 22px; color: var(--text-bright); margin-bottom: 6px; }
+    .brand p { font-size: 13px; color: #8b949e; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 6px;
+      background: rgba(56, 139, 253, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(56, 139, 253, 0.3);
+    }
+    .badge.buggy {
+      background: rgba(248, 81, 73, 0.15);
+      color: var(--danger);
+      border-color: rgba(248, 81, 73, 0.4);
+    }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--text-bright); }
+    input {
+      width: 100%;
+      padding: 10px 14px;
+      background: #090d16;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-bright);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus { border-color: var(--accent); }
+    .error-msg {
+      font-size: 12px;
+      color: var(--danger);
+      margin-top: 4px;
+      display: none;
+    }
+    .alert {
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 18px;
+      display: none;
+    }
+    .alert-error {
+      background: rgba(248, 81, 73, 0.15);
+      border: 1px solid rgba(248, 81, 73, 0.4);
+      color: var(--danger);
+    }
+    .alert-lockout {
+      background: rgba(210, 153, 34, 0.15);
+      border: 1px solid rgba(210, 153, 34, 0.4);
+      color: var(--warning);
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 11px;
+      background: #238636;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+    }
+    .btn-submit:hover:not(:disabled) { background: #2ea043; }
+    .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+    .helper-text { text-align: center; margin-top: 18px; font-size: 12px; color: #8b949e; }
+    .dashboard-view { display: none; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <!-- Login View -->
+  <div class="auth-card" id="login-card">
+    <div class="brand">
+      <h1>Enterprise Portal</h1>
+      <p>Continuous Testing Target Application</p>
+      <span id="system-badge" class="badge">Mode: Certified Stable (v2.4)</span>
+    </div>
+
+    <div class="alert alert-error" id="alert-error" data-testid="alert-error"></div>
+    <div class="alert alert-lockout" id="alert-lockout" data-testid="alert-lockout"></div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="email">Work Email</label>
+        <input type="text" id="email" data-testid="input-email" placeholder="customer@enterprise.io" autocomplete="off" />
+        <div class="error-msg" id="error-email-validation" data-testid="error-email-validation"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" data-testid="input-password" placeholder="••••••••••••" />
+        <div class="error-msg" id="error-password-validation" data-testid="error-password-validation"></div>
+      </div>
+
+      <!-- Button locator dynamically injected based on bug_mode -->
+      <button type="submit" id="btn-login" class="btn-submit" data-testid="button-login">Sign In</button>
+    </form>
+
+    <div class="helper-text">
+      Valid Demo Account: <code>customer@enterprise.io</code> / <code>SecurePass123!</code>
+    </div>
+  </div>
+
+  <!-- Dashboard View -->
+  <div class="auth-card dashboard-view" id="dashboard-card">
+    <div class="brand">
+      <h1 id="user-greeting" data-testid="user-greeting">Welcome, Customer!</h1>
+      <p>Secure Enterprise Session Active</p>
+      <span class="badge" style="background: rgba(63, 185, 80, 0.15); color: var(--success); border-color: var(--success);">Authenticated</span>
+    </div>
+    <p style="margin-bottom: 20px; font-size: 14px;">Your account access has been authorized according to Jira AC1.</p>
+    <button type="button" class="btn-submit" id="btn-logout" data-testid="button-logout" onclick="logout()">Sign Out</button>
+  </div>
+
+  <script>
+    let failedAttempts = 0;
+    let isLocked = false;
+    let bugMode = false;
+
+    // Check query params or server status for bug mode
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("buggy") === "true") {
+      activateBugMode();
+    }
+
+    function activateBugMode() {
+      bugMode = true;
+      const badge = document.getElementById("system-badge");
+      badge.textContent = "Mode: Buggy UI (Locator Drift Active)";
+      badge.classList.add("buggy");
+      
+      // Simulate developer refactoring breaking locator: remove data-testid, use legacy ID
+      const btn = document.getElementById("btn-login");
+      btn.removeAttribute("data-testid");
+      btn.id = "legacy-login-btn";
+    }
+
+    const form = document.getElementById("login-form");
+    const emailInput = document.getElementById("email");
+    const passInput = document.getElementById("password");
+    const errEmail = document.getElementById("error-email-validation");
+    const errPass = document.getElementById("error-password-validation");
+    const alertError = document.getElementById("alert-error");
+    const alertLockout = document.getElementById("alert-lockout");
+    const loginCard = document.getElementById("login-card");
+    const dashCard = document.getElementById("dashboard-card");
+    const submitBtn = document.getElementById("btn-login") || document.getElementById("legacy-login-btn");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      if (isLocked) return;
+
+      // Reset errors
+      errEmail.style.display = "none";
+      errPass.style.display = "none";
+      alertError.style.display = "none";
+      alertLockout.style.display = "none";
+
+      const email = emailInput.value.trim();
+      const password = passInput.value;
+
+      // Client validation AC3, AC4, AC5
+      let hasError = false;
+      if (!email) {
+        errEmail.textContent = "Email is required";
+        errEmail.style.display = "block";
+        hasError = true;
+      } else if (!email.includes("@") || !email.includes(".")) {
+        errEmail.textContent = "Please enter a valid email address";
+        errEmail.style.display = "block";
+        hasError = true;
+      }
+
+      if (!password) {
+        errPass.textContent = "Password is required";
+        errPass.style.display = "block";
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // Backend auth check
+      if (email === "customer@enterprise.io" && password === "SecurePass123!") {
+        failedAttempts = 0;
+        loginCard.style.display = "none";
+        dashCard.style.display = "block";
+        window.history.pushState({}, "", "/dashboard");
+        return;
+      }
+
+      // Invalid credentials
+      failedAttempts++;
+      const lockoutThreshold = bugMode ? 3 : 5; // Buggy mode locks out at 3!
+
+      if (failedAttempts >= lockoutThreshold) {
+        isLocked = true;
+        alertLockout.textContent = "Account locked due to 5 failed attempts. Please contact support.";
+        alertLockout.style.display = "block";
+        submitBtn.disabled = true;
+      } else {
+        alertError.textContent = "Invalid email or password";
+        alertError.style.display = "block";
+      }
+    });
+
+    function logout() {
+      loginCard.style.display = "block";
+      dashCard.style.display = "none";
+      window.history.pushState({}, "", "/login");
+    }
+
+    // Endpoint hook to reset lockout
+    window.resetLockout = function() {
+      failedAttempts = 0;
+      isLocked = false;
+      submitBtn.disabled = false;
+      alertError.style.display = "none";
+      alertLockout.style.display = "none";
+    };
+  </script>
+</body>
+</html>

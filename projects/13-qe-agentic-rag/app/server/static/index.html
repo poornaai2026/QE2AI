@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic QE Platform | LangGraph & Playwright</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">QE</div>
+      <div class="brand-info">
+        <h1>Agentic Quality Engineering Platform</h1>
+        <div class="badges-row">
+          <span class="tech-tag active">LangGraph</span>
+          <span class="tech-tag active">LangChain RAG</span>
+          <span class="tech-tag active">Pinecone</span>
+          <span class="tech-tag active">Ragas</span>
+          <span class="tech-tag active">FastMCP</span>
+          <span class="tech-tag active">Playwright</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <select id="ticket-select" class="ticket-select">
+        <option value="AUTH-101" selected>Jira: AUTH-101 (Authentication & Lockout)</option>
+        <option value="CHECKOUT-204">Jira: CHECKOUT-204 (Promo Code Engine)</option>
+      </select>
+
+      <button id="btn-toggle-healing" class="btn-secondary" style="border-color: var(--accent-emerald); color: var(--accent-emerald);" onclick="toggleActiveHealing()">
+        ⚡ In-Flight Healing: ON
+      </button>
+
+      <button id="btn-toggle-bug" class="btn-secondary btn-bug-toggle" onclick="toggleBugMode()">
+        🐞 Target Bug: Off
+      </button>
+
+      <button id="btn-run-tests" class="btn-secondary" onclick="executePlaywrightSuite()">
+        ▶ Run Playwright
+      </button>
+
+      <button id="btn-run-pipeline" class="btn-primary" onclick="runAgenticWorkflow()">
+        ⚡ Run Agentic QE Workflow
+      </button>
+    </div>
+  </header>
+
+  <!-- Enterprise Architecture Telemetry Bar -->
+  <section class="telemetry-bar">
+    <div class="telemetry-item">
+      <span class="telemetry-label">Model Cascade Tier:</span>
+      <span id="tel-model-tier" class="telemetry-value" style="color: var(--accent-blue);">Tier-1 Fast (Gemini 2.5 Flash / GPT-4o-mini)</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="telemetry-label">Token Cost Savings:</span>
+      <span id="tel-cost-savings" class="telemetry-value" style="color: var(--accent-emerald);">81.4% (vs Monolithic GPT-4o)</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="telemetry-label">Retrieval Engine:</span>
+      <span class="telemetry-value" style="color: var(--accent-purple);">Hybrid RAG (BM25 + Dense RRF)</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="telemetry-label">In-Flight Healed:</span>
+      <span id="tel-healed-count" class="telemetry-value" style="color: var(--accent-cyan);">0 Selectors</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="telemetry-label">QA Sign-Off (HITL):</span>
+      <span id="tel-approval-status" class="telemetry-value" style="color: var(--accent-emerald);">APPROVED</span>
+    </div>
+  </section>
+
+  <!-- Main Workspace Container -->
+  <main class="container">
+
+    <!-- LangGraph Pipeline Visualizer -->
+    <section class="pipeline-card">
+      <div class="pipeline-header">
+        <div class="pipeline-title">
+          <span>⚡ LangGraph Orchestration State Machine</span>
+        </div>
+        <div id="pipeline-status-text" style="font-size: 12px; color: var(--text-muted);">
+          System Ready • Click "Run Agentic QE Workflow" to trigger
+        </div>
+      </div>
+
+      <div class="pipeline-flow">
+        <!-- Node 1: Requirement Agent -->
+        <div class="node" id="node-req" onclick="showTab('tab-tests')">
+          <div class="node-icon">📋</div>
+          <div class="node-label">Requirement Agent</div>
+          <div class="node-sub">Jira AC Deconstruct</div>
+        </div>
+
+        <div class="edge-arrow">➜</div>
+
+        <!-- Node 2: Confluence RAG -->
+        <div class="node" id="node-rag" onclick="showTab('tab-confluence')">
+          <div class="node-icon">🔍</div>
+          <div class="node-label">RAG Pipeline</div>
+          <div class="node-sub">Confluence Vector</div>
+        </div>
+
+        <div class="edge-arrow">➜</div>
+
+        <!-- Node 3: Test Gen Agent -->
+        <div class="node" id="node-gen" onclick="showTab('tab-tests')">
+          <div class="node-icon">🧪</div>
+          <div class="node-label">Test Case Agent</div>
+          <div class="node-sub">Suite Synthesis</div>
+        </div>
+
+        <div class="edge-arrow">➜</div>
+
+        <!-- Node 4: AI Validation Agent -->
+        <div class="node" id="node-val" onclick="showTab('tab-validation')">
+          <div class="node-icon">🛡️</div>
+          <div class="node-label">AI Validation Agent</div>
+          <div class="node-sub">Hallucination Check</div>
+        </div>
+
+        <div class="edge-arrow">
+          <div id="loop-indicator" class="edge-loop" style="display:none;">⟲ Regenerate</div>
+          <span id="pass-indicator">➜</span>
+        </div>
+
+        <!-- Node 5: Ragas Quality Gate -->
+        <div class="node" id="node-ragas" onclick="showTab('tab-ragas')">
+          <div class="node-icon">📊</div>
+          <div class="node-label">Ragas Evaluation</div>
+          <div class="node-sub">AI Quality Gate</div>
+        </div>
+
+        <div class="edge-arrow">➜</div>
+
+        <!-- Node 6: Playwright Gen -->
+        <div class="node" id="node-pw" onclick="showTab('tab-code')">
+          <div class="node-icon">🎭</div>
+          <div class="node-label">Playwright Agent</div>
+          <div class="node-sub">Pytest Generator</div>
+        </div>
+
+        <div class="edge-arrow">➜</div>
+
+        <!-- Node 7: Failure Analysis -->
+        <div class="node" id="node-fail" onclick="showTab('tab-failure')">
+          <div class="node-icon">🩺</div>
+          <div class="node-label">AI Failure Analyzer</div>
+          <div class="node-sub">Root Cause & Diff</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab(event, 'tab-tests')">🧪 Test Cases (<span id="tc-count">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-synthetic')">🧬 Synthetic Test Data (<span id="synth-count">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-validation')">🛡️ AI Validation & Self-Healing</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-ragas')">📊 Ragas AI Quality Gate</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-code')">🎭 Playwright Code</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-failure')">🩺 AI Failure Analysis</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-confluence')">📚 Confluence RAG Docs</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-target')">🌐 Target App Preview</button>
+    </nav>
+
+    <!-- TAB 1: Test Cases -->
+    <section id="tab-tests" class="tab-content active">
+      <div class="hitl-action-bar" id="hitl-action-bar" style="display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border); border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 13px; font-weight: 600;">QA Lead Governance (HITL Sign-Off Gate):</span>
+          <span id="hitl-status-pill" class="tech-tag" style="background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald);">APPROVED</span>
+        </div>
+        <button class="btn-primary" style="font-size: 12px; padding: 6px 14px;" onclick="approveTestSuite()">
+          ✍️ Sign-Off Suite (HITL Approval)
+        </button>
+      </div>
+      <div id="tc-container" class="tc-grid">
+        <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: var(--text-muted);">
+          Click <strong>"Run Agentic QE Workflow"</strong> above to deconstruct Jira requirements and generate validated test cases.
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: Synthetic Test Data & Boundary Fuzzing -->
+    <section id="tab-synthetic" class="tab-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; background: rgba(15, 23, 42, 0.7); border: 1px solid var(--card-border); border-radius: 8px; padding: 12px 16px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 13px; font-weight: 600;">Data Governance:</span>
+          <span class="tech-tag" style="background: rgba(56, 189, 248, 0.2); color: var(--accent-cyan);">GDPR / HIPAA Pseudonymized</span>
+          <span class="tech-tag" style="background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald);">PII Masked</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted);">
+          Total Fixtures: <strong id="synth-total-badge" style="color: var(--accent-cyan);">0</strong>
+        </div>
+      </div>
+      <div id="synth-container" class="synth-grid">
+        <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: var(--text-muted);">
+          Synthetic test fixtures will be populated upon running the Agentic QE Workflow.
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: AI Validation & Self-Healing Feedback Loop -->
+    <section id="tab-validation" class="tab-content">
+      <div class="pipeline-card" style="margin-bottom: 20px;">
+        <h3 style="font-size: 16px; margin-bottom: 12px; color: var(--text-main);">AI Validation Agent: Critic Verdict & Self-Correction</h3>
+        <div id="validation-summary">
+          <p style="color: var(--text-muted); font-size: 13px;">No validation report yet. Run workflow to evaluate.</p>
+        </div>
+      </div>
+      <div id="validation-details"></div>
+    </section>
+
+    <!-- TAB 3: Ragas Evaluation & AI Quality Gate -->
+    <section id="tab-ragas" class="tab-content">
+      <div id="quality-gate-banner" class="quality-gate-banner" style="display:none;">
+        <div>
+          <h4 id="gate-banner-title" style="font-size: 16px; font-weight: 700;">AI Quality Gate: Status</h4>
+          <p id="gate-banner-sub" style="font-size: 13px; color: var(--text-muted);"></p>
+        </div>
+        <div id="gate-banner-tag" class="tech-tag" style="font-size: 14px; padding: 6px 14px;">GATE PASS</div>
+      </div>
+
+      <div class="ragas-grid">
+        <div class="ragas-card">
+          <div class="ragas-label">Faithfulness</div>
+          <div class="ragas-score" id="score-faithfulness">--</div>
+          <div class="ragas-target">Threshold: &ge; 0.85</div>
+        </div>
+        <div class="ragas-card">
+          <div class="ragas-label">Answer Relevance</div>
+          <div class="ragas-score" id="score-relevance">--</div>
+          <div class="ragas-target">Threshold: &ge; 0.85</div>
+        </div>
+        <div class="ragas-card">
+          <div class="ragas-label">Context Precision</div>
+          <div class="ragas-score" id="score-precision">--</div>
+          <div class="ragas-target">Semantic signal</div>
+        </div>
+        <div class="ragas-card">
+          <div class="ragas-label">Context Recall</div>
+          <div class="ragas-score" id="score-recall">--</div>
+          <div class="ragas-target">Domain coverage</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: Playwright Code Viewer -->
+    <section id="tab-code" class="tab-content">
+      <div class="code-container">
+        <div class="code-header">
+          <span>Python Playwright Test Suite (pytest)</span>
+          <button class="btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="copyCode()">Copy Code</button>
+        </div>
+        <pre class="code-block" id="playwright-code-display"># Playwright test code will be rendered here...</pre>
+      </div>
+    </section>
+
+    <!-- TAB 5: AI Failure Analysis -->
+    <section id="tab-failure" class="tab-content">
+      <div id="failure-container">
+        <div class="pipeline-card" style="text-align: center; padding: 40px; color: var(--text-muted);">
+          No failures recorded. Run <strong>Playwright Tests</strong> with <strong>Target Bug Mode ON</strong> to inspect the AI Failure Analysis agent diagnosing locator drift or business rule violations!
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: Confluence Knowledge Docs -->
+    <section id="tab-confluence" class="tab-content">
+      <div id="confluence-docs-container" class="tc-grid"></div>
+    </section>
+
+    <!-- TAB 7: Target App Preview -->
+    <section id="tab-target" class="tab-content">
+      <div class="code-container" style="height: 600px;">
+        <div class="code-header">
+          <span>Target Enterprise Application Preview (http://localhost:8080/login)</span>
+          <a href="http://localhost:8080/login" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-size: 12px;">Open in New Tab ↗</a>
+        </div>
+        <iframe id="target-iframe" src="http://localhost:8080/login" style="width: 100%; height: 550px; border: none; background: #0d1117;"></iframe>
+      </div>
+    </section>
+
+    <!-- Bottom Agentic Console Drawer -->
+    <section class="log-drawer">
+      <div style="font-weight: 700; color: var(--accent-blue); margin-bottom: 8px; font-size: 11px; text-transform: uppercase;">
+        Terminal & Agent Event Log
+      </div>
+      <div id="log-console">
+        <div class="log-line hl">[System] Agentic QE Platform initialized. Ready for requirements ingestion.</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: GitOps Pull Request Preview -->
+  <div class="modal-overlay" id="pr-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">🚀</span>
+          <h3 style="font-size: 16px; color: #fff;" id="pr-modal-title">GitHub Pull Request Created</h3>
+        </div>
+        <button class="btn-close" onclick="closePrModal()">&times;</button>
+      </div>
+      <div style="font-size: 13px; color: var(--text-muted);">
+        Branch: <code id="pr-modal-branch" style="color: var(--accent-cyan); font-family: var(--font-mono);">fix/healed-locator-auth-101</code>
+        &bull; Status: <span class="tech-tag" style="background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald);">OPEN (MERGEABLE)</span>
+      </div>
+      <div>
+        <strong style="font-size: 13px; color: #e2e8f0;">Unified Git Diff:</strong>
+        <pre id="pr-modal-diff" style="background: #000; border: 1px solid var(--card-border); border-radius: 6px; padding: 12px; font-family: var(--font-mono); font-size: 12px; color: var(--accent-emerald); overflow-x: auto; margin-top: 6px;"></pre>
+      </div>
+      <div>
+        <strong style="font-size: 13px; color: #e2e8f0;">PR Description:</strong>
+        <pre id="pr-modal-body" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 12px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); max-height: 180px; overflow-y: auto; white-space: pre-wrap; margin-top: 6px;"></pre>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn-secondary" onclick="closePrModal()">Dismiss</button>
+        <button class="btn-primary" onclick="alert('Pull Request merged into main branch! Test suite marked permanently healed.')">Simulate Merge to Main ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
+

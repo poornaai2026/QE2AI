@@ -1,0 +1,32 @@
+# Core Web & API
+fastapi>=0.115.0
+uvicorn>=0.30.0
+jinja2>=3.1.4
+python-multipart>=0.0.12
+pydantic>=2.9.0
+pydantic-settings>=2.5.0
+python-dotenv>=1.0.1
+requests>=2.32.3
+
+# Agentic Orchestration & LangChain
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-community>=0.3.0
+langgraph>=0.2.20
+
+# Vector DB & Embeddings
+faiss-cpu>=1.9.0
+# pinecone-client is optional for live cloud deployment
+# pinecone>=5.0.0
+
+# Model Context Protocol (MCP)
+fastmcp>=0.1.0
+
+# Test Automation & Execution
+playwright>=1.48.0
+pytest-playwright>=0.5.0
+pytest>=8.3.0
+pytest-asyncio>=0.24.0
+
+# RAG & LLM Evaluation
+ragas>=0.2.0
