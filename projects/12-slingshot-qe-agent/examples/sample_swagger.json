@@ -1,0 +1,62 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SlingShot Order Processing API",
+    "version": "1.0.0",
+    "description": "Sample API spec for validating SlingShot QE Agent"
+  },
+  "servers": [
+    {
+      "url": "https://httpbin.org"
+    }
+  ],
+  "paths": {
+    "/post": {
+      "post": {
+        "summary": "Create customer order",
+        "operationId": "createOrder",
+        "tags": ["Orders"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["item_id", "quantity", "customer_id"],
+                "properties": {
+                  "item_id": { "type": "string" },
+                  "quantity": { "type": "integer" },
+                  "customer_id": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Order created successfully" },
+          "400": { "description": "Invalid order input" }
+        }
+      }
+    },
+    "/status/400": {
+      "post": {
+        "summary": "Simulate 400 Bad Request error",
+        "operationId": "badRequestSimulation",
+        "tags": ["Errors"],
+        "responses": {
+          "400": { "description": "Bad Request validation failure" }
+        }
+      }
+    },
+    "/status/401": {
+      "get": {
+        "summary": "Simulate 401 Unauthorized",
+        "operationId": "unauthorizedSimulation",
+        "tags": ["Auth"],
+        "responses": {
+          "401": { "description": "Unauthorized access" }
+        }
+      }
+    }
+  }
+}

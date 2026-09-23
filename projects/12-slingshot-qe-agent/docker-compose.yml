@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  # PostgreSQL for durable LangGraph checkpoint persistence across pod restarts
+  postgres:
+    image: postgres:16-alpine
+    container_name: slingshot-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: qe_user
+      POSTGRES_PASSWORD: qe_password
+      POSTGRES_DB: qe_checkpoints
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # SlingShot QE Agent API Service
+  slingshot-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: slingshot-qe-service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://qe_user:qe_password@postgres:5432/qe_checkpoints
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - JIRA_URL=${JIRA_URL}
+      - JIRA_API_TOKEN=${JIRA_API_TOKEN}
+    depends_on:
+      - postgres
+    volumes:
+      - test-workspace:/app/workspace
+
+volumes:
+  pgdata:
+  test-workspace:

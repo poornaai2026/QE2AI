@@ -1,0 +1,28 @@
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Playwright
+.playwright/
+test-results/
+
+# Environment & Secrets
+.env
+
+# Local Workspace Execution Logs
+workspace/reports/*.txt
+workspace/reports/*.md
