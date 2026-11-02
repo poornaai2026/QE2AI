@@ -1,4 +1,4 @@
-﻿# Master Documentation: QE2AI
+# Master Documentation: QE2AI
 
 > **From Quality Engineering to AI Engineering.**  
 > A practical, build-first learning platform and repository for Quality Engineers and SDETs transitioning into Generative AI, LLM Engineering, RAG, Agentic AI, Model Context Protocol (MCP), and AI Quality Evaluation.
@@ -10,7 +10,7 @@
 ```text
 QE2AI/
 ├── src/                                    # QE2AI Interactive Web Application (Modern Monochrome)
-├── projects/                               # 13 Hands-on Practical Projects
+├── projects/                               # 13 Hands-on Practical Projects (Learning Tracks)
 │   ├── 01-fastapi-test-management/         # Track 01: FastAPI Test Management API
 │   ├── 02-llm-testcase-generator/          # Track 02: LLM-powered test-case generator
 │   ├── 03-llm-qe-assistant/                # Track 03: LLM API-based QE assistant
@@ -22,9 +22,27 @@ QE2AI/
 │   ├── 09-deploy-ai-qe-app/                # Track 09: Containerized Docker + GitHub Actions CI/CD
 │   ├── 10-production-ai-qe-platform/       # Track 10: Production-Ready AI QE Platform (Guardrails + Observability)
 │   ├── 11-langchain-deep-agents/           # Track 11: LangChain Deep Agents (Hierarchical Reasoning & QA)
-│   └── 12-slingshot-qe-agent/              # Track 12: SlingShot Autonomous API & UI QE Multi-Agent Framework
+│   ├── 12-slingshot-qe-agent/              # Track 12: SlingShot Autonomous API & UI QE Multi-Agent Framework
+│   └── 13-qe-agentic-rag/                  # Track 13: Enterprise Agentic QE Platform with Hybrid RAG
 └── README.md                               # Repository Overview
 ```
+
+---
+
+## 🌟 Flagship Production Application: CareerPilot AI
+
+> **CareerPilot AI** is the first standalone commercial-grade autonomous agent platform built on the QE2AI engineering architecture. It synthesizes core Quality Engineering capabilities (Playwright browser automation, Chrome CDP attach, resilient locator strategies) with Generative AI (Gemini 2.5 Flash / OpenRouter LLM evaluators, tailored pitch generation, multi-ATS form filling).
+
+| Feature | Tech Stack | Repository |
+| :--- | :--- | :---: |
+| **Autonomous Career Agent & Application Engine** | Playwright, Chrome CDP, Gemini 2.5 Flash, FastAPI, SQLite | [**CareerPilot-AI ↗**](https://github.com/poornaai2026/CareerPilot-AI) |
+
+**Key Capabilities:**
+- 🤖 **Zero-Ban Chrome CDP Architecture:** Attaches directly to existing Chrome sessions via port 9222 (zero bot detection, zero credentials stored).
+- 📧 **Digest Alert Harvester:** Deep-parses LinkedIn and Naukri daily digest emails from Gmail to discover 10–20 individual opportunities per email.
+- 🎯 **LLM Fit Evaluation Gate:** Evaluates job descriptions against resume metrics (0–100%) and drafts tailored elevator pitches.
+- ⚡ **Multi-Portal & ATS Automation:** Executes LinkedIn Easy Apply, follows external `Apply ↗` redirects, and autofills Workday, Greenhouse, Lever, and SmartRecruiters.
+- 📊 **Executive Web Command Center:** Dark-mode dashboard with live telemetry, dry-run review mode, and CSV audit export.
 
 ---
 
@@ -66,4 +84,3 @@ npm run build
 ## 👤 Author & Architecture
 - **Creator**: Poorna Chandra Rao J (Senior Quality Engineer & GenAI Practitioner)
 - **Design Philosophy**: Pure modern black and white / monochrome aesthetic, high contrast, zero generic AI neon gradients.
-
